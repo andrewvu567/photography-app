@@ -3,6 +3,7 @@ script for photography-app
 Version 1.0.0
 Authors: Big Data Dynasty group CIS 440
 
+TEST TEST 
 
 var firstName = null
 var lastName = null
