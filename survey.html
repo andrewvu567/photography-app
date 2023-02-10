@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script type="text/javascript">
+		function TestButtonHandler() {
+			var webMethod = "ProjectServices.asmx/TestConnection";
+			var parameters = "{}";
+
+			//jQuery ajax method
+			$.ajax({
+				type: "POST",
+				url: webMethod,
+				data: parameters,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (msg) {
+					var responseFromServer = msg.d;
+					alert(responseFromServer);
+				},
+				error: function (e) {
+					alert("this code will only execute if javascript is unable to access the webservice");
+				}
+			});
+		}
+
+        function redirectToIndex() {
+            window.location.href='index.html'
+        }
+        
+	</script> -->
+
+    <link href="style.css" rel="stylesheet" type="text/css" >
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+
+  <!-- <div class="Nav">
+
+      <a href="index.html">Home</a>
+      <a href="survey.html">Survey</a>
+  </div> -->
+
+  <h1>Please fill out the survey below!</h1>
+  
+  <div class="survey-container">
+    <!-- Survey questions form -->
+    <form action="">
+        <br>
+
+        <label>Are you a photographer or a client?</label><br>
+            <input class="radioButtons" type="radio" id="rdoChoiceOne" name="userTypeSelection" value="Photographer">
+            <label class="userTypeLabels" for="rdoChoiceOne">Photographer</label><br>
+            <input class="radioButtons" type="radio" id="rdoChoiceTwo" name="userTypeSelection" value="Client">
+            <label class="userTypeLabels" for="rdoChoiceTwo">Client</label><br><br>
+
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password"><br><br>
+
+        <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName"><br><br>
+
+        <label for="emailAddress">Email Address:</label>
+            <input type="email" id="emailAddress" name="emailAddress"><br><br>
+
+        <label>When is your desired photo session? Please include month, day, and year.</label><br>
+            <textarea rows="10" cols="62"></textarea><br><br>
+
+        <label>Preferred photograph style?</label><br>
+            <input class="radioButtons" type="radio" id="rdoChoiceOne" name="photoStyleSelection" value="natureOutdoors">
+            <label class="photoStyleLabels" for="rdoChoiceOne">Nature/Outdoors</label><br>
+            
+            <input class="radioButtons" type="radio" id="rdoChoiceTwo" name="photoStyleSelection" value="naturalLighting">
+            <label class="photoStyleLabels" for="rdoChoiceTwo">Natural Lighting</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceThree" name="photoStyleSelection" value="studio">
+            <label class="photoStyleLabels" for="rdoChoiceThree">Studio</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceFour" name="photoStyleSelection" value="studioLighting">
+            <label class="photoStyleLabels" for="rdoChoiceFour">Studio Lighting</label><br><br>
+
+        <label>Preferred photo type?</label><br>
+            <input class="radioButtons" type="radio" id="rdoChoiceOne" name="photoTypeSelection" value="portrait">
+            <label class="photoTypeLabels" for="rdoChoiceOne">Portrait</label><br>
+            
+            <input class="radioButtons" type="radio" id="rdoChoiceTwo" name="photoTypeSelection" value="event">
+            <label class="photoTypeLabels" for="rdoChoiceTwo">Event</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceThree" name="photoTypeSelection" value="wedding">
+            <label class="photoTypeLabels" for="rdoChoiceThree">Wedding</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceFour" name="photoTypeSelection" value="headshot">
+            <label class="photoTypeLabels" for="rdoChoiceFour">Headshot</label><br>
+            
+            <input class="radioButtons" type="radio" id="rdoChoiceFive" name="photoTypeSelection" value="group">
+            <label class="photoTypeLabels" for="rdoChoiceFive">Group</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceSix" name="photoTypeSelection" value="family">
+            <label class="photoTypeLabels" for="rdoChoiceSix">Family</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceSeven" name="photoTypeSelection" value="beginner">
+            <label class="photoTypeLabels" for="rdoChoiceSeven">Beginner (1-3 years)</label><br>
+            
+            <input class="radioButtons" type="radio" id="rdoChoiceEight" name="photoTypeSelection" value="baby">
+            <label class="photoTypeLabels" for="rdoChoiceEight">Baby</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceNine" name="photoTypeSelection" value="grad">
+            <label class="photoTypeLabels" for="rdoChoiceNine">Grad Photos</label><br><br>
+
+        <label for="budgetOrRates">Budget or Range of Rates:</label>
+            <input type="text" id="budgetOrRates" name="budgetOrRates"><br><br>
+
+        <label>Preferred photography experience?</label><br>
+            <input class="radioButtons" type="radio" id="rdoChoiceOne" name="expSelection" value="beginner">
+            <label class="expLabels" for="rdoChoiceOne">Beginner (1-3 years)</label><br>
+            
+            <input class="radioButtons" type="radio" id="rdoChoiceTwo" name="expSelection" value="intermediate">
+            <label class="expLabels" for="rdoChoiceTwo">Intermediate (3-5 years)</label><br>
+
+            <input class="radioButtons" type="radio" id="rdoChoiceThree" name="expSelection" value="advanced">
+            <label class="expLabels" for="rdoChoiceThree">Advanced (5+ years)</label><br><br><br>
+
+        <button onclick="redirectToIndex()" value="Submit">Submit</button>
+    </form>
+
+  </div>
+
+</body>
+</html>
