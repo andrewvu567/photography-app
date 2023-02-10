@@ -5,6 +5,8 @@ Authors: Big Data Dynasty group CIS 440
 
 TEST TEST 
 
+git push and commit test
+
 var firstName = null
 var lastName = null
 var email = null
