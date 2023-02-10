@@ -1,58 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-    }
-    
-    h1 {
-      text-align: center;
-      margin-top: 50px;
-    }
-    
-    .form-container {
-      width: 500px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 50px;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
-    
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-    }
-    
-    input[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+		function TestButtonHandler() {
+			var webMethod = "ProjectServices.asmx/TestConnection";
+			var parameters = "{}";
 
-    .signup-btn {
-      background-color: #ffffff;
-      color: #4CAF50;
-      border: 1px solid #4CAF50;
-      border-radius: 5px;
-      cursor: pointer;
-      padding: 10px;
-      float: right;
-      margin-top: 20px;
-    }
-  </style>
+			//jQuery ajax method
+			$.ajax({
+				type: "POST",
+				url: webMethod,
+				data: parameters,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (msg) {
+					var responseFromServer = msg.d;
+					alert(responseFromServer);
+				},
+				error: function (e) {
+					alert("this code will only execute if javascript is unable to access the webservice");
+				}
+			});
+		}
+	</script>
 </head>
 <body>
   <h1>Welcome to [Photography App Name]!</h1>
@@ -69,47 +40,9 @@
     <button class="signup-btn">Sign Up</button>
   </div>
   
-  <!-- Sign up modal -->
-  <div id="signupModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <!-- Sign up form -->
-      <form action="">
-        <input type="text" placeholder="Name">
-        <input type="email" placeholder="Email">
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <input type="submit" value="Sign Up">
-      </form>
-    </div>
-  </div> 
-    <script>
-        // Get the sign up button
-        var signupBtn = document.querySelector(".signup-btn");
-        
-        // Get the sign up modal
-        var signupModal = document.getElementById("signupModal");
 
-        // Get the close button for the sign up modal
-        var closeBtn = document.querySelector(".close");
+ 
 
-        // Show the sign up modal when the sign up button is clicked
-        signupBtn.addEventListener("click", function() {
-            signupModal.style.display = "block";
-        });
-
-        // Hide the sign up modal when the close button is clicked
-        closeBtn.addEventListener("click", function() {
-        signupModal.style.display = "none";
-        });
-
-        // Hide the sign up modal when the user clicks outside of the modal
-        window.addEventListener("click", function(event) {
-        if (event.target == signupModal) {
-            signupModal.style.display = "none";
-        }
-        });
-    </script>
 </body>
 </html>
 
