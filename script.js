@@ -13,10 +13,31 @@ var photoStyle = null
 var photoType = null
 var expPreference = null //Preferred photographer experience
 var custBudget = null
+var custAvailability = null
 
 function parseSurvey(){
+    username = $("#user").val()
+    console.log(username)
+    password = $("#pass").val()
+    userType = $(".radioButtons1:checked").val()
+    photoStyle = $(".radioButtons2:checked").val()
+    photoType = $(".radioButtons3:checked").val()
+    expPreference = $(".radioButtons4:checked").val()
+    firstName = $("#firstName").val()
+    lastName = $("#lastName").val()
+    email = $("#emailAddress").val()
+    console.log(email)
+    custAvailability = $("#freeText").val()
+
     
+    // $("#tester").append("User Information:")
+    redirectToIndex()
+
+    $("#userInfo").html("<p id='finalUserInfo'>Welcome" + username + "!" + " This is our photography appointment system. Below is your information" + "\n" + userType + "</p>");
+
     
+
+
  }
 
 
