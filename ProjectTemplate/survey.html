@@ -21,6 +21,7 @@
                success: function (msg) {
                    if (msg.d) {
                        alert("Account created, logging you in.");
+                       window.location.href = 'home.html';
                    }
                    else {
                        alert("A username already exists! Please try another.")
