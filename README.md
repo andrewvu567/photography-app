@@ -20,88 +20,167 @@ _Note:_ Please write 1-2 sentences explaining the changes you are logging and th
 
 Changelog Table of Contents:
 [Andrew](#andrew)
+
 [Cindy](#cindy)
+
 [Hai](#hai)
+
 [Harsh](#harsh)
+
 [Matthew](#matthew)
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 *<a name="andrew"></a> Andrew*
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 *<a name="cindy"></a> Cindy*
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 *<a name="hai"></a> Hai*
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 *<a name="harsh"></a> Harsh*
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 
+.
 *<a name="matthew"></a> Matthew*
 
