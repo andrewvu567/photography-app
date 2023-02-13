@@ -32,7 +32,7 @@ Changelog Table of Contents:
 
 .
 
-*<a name="sprint-1"></a> Sprint 1*
+**<a name="sprint-1"></a> Sprint 1**
 
 Andrew:
 
@@ -50,7 +50,7 @@ Matthew:
 
 .
 
-*<a name="sprint-2"></a> Sprint 2*
+**<a name="sprint-2"></a> Sprint 2**
 
 Andrew:
 
@@ -68,7 +68,7 @@ Matthew:
 
 .
 
-*<a name="sprint-3"></a> Sprint 3*
+**<a name="sprint-3"></a> Sprint 3**
 
 Andrew:
 
