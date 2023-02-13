@@ -18,13 +18,20 @@ A WebApp designed to be a resource for photographers and customers alike. Our we
 
 _Note:_ Please write 1-2 sentences explaining the changes you are logging and the date of when the changes were logged under your italicized name. Thank you!
 
-*Andrew*
+Changelog Table of Contents:
+[Andrew](#andrew)
+[Cindy](#cindy)
+[Hai](#hai)
+[Harsh](#harsh)
+[Matthew](#matthew)
 
-*Cindy*
+*<a name="andrew"></a> Andrew*
 
-*Hai*
+*<a name="cindy"></a> Cindy*
 
-*Harsh*
+*<a name="hai"></a> Hai*
 
-*Matthew*
+*<a name="harsh"></a> Harsh*
+
+*<a name="matthew"></a> Matthew*
 
