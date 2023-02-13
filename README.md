@@ -32,30 +32,6 @@ Changelog Table of Contents:
 
 .
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
 *<a name="sprint-1"></a> Sprint 1*
 
 Andrew:
@@ -68,6 +44,12 @@ Harsh:
 
 Matthew:
 
+.
+
+.
+
+.
+
 *<a name="sprint-2"></a> Sprint 2*
 
 Andrew:
@@ -79,6 +61,12 @@ Hai:
 Harsh:
 
 Matthew:
+
+.
+
+.
+
+.
 
 *<a name="sprint-3"></a> Sprint 3*
 
