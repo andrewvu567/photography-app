@@ -14,7 +14,7 @@ A WebApp designed to be a resource for photographers and customers alike. Our we
 
 
 
-**CHANGELOG:**
+**Changelog**
 
 _Note:_ Please write 1-2 sentences explaining the changes you are logging and the date of when the changes were logged under your italicized name. Thank you!
 
