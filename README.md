@@ -40,7 +40,7 @@ Cindy:
 
 Hai:
 
-Harsh:
+Harsh: Used JQuery to display user info after filling out survey, created base for backend parseSurvey function
 
 .
 
