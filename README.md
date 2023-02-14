@@ -16,191 +16,47 @@ A WebApp designed to be a resource for photographers and customers alike. Our we
 
 **Changelog**
 
-_Note:_ Please write 1-2 sentences explaining the changes you are logging and the date of when the changes were logged under your italicized name. Thank you!
+_Note:_ Please write 1-2 sentences explaining the changes you are logging and the date of when the changes were logged under your name under the correct sprint. Thank you!
 
 Changelog Table of Contents:
 
-[Andrew](#andrew)
+[Sprint 1](#sprint-1)
 
-[Cindy](#cindy)
+[Sprint 2](#sprint-2)
 
-[Hai](#hai)
+[Sprint 3](#sprint-3)
 
-[Harsh](#harsh)
-
-[Matthew](#matthew)
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-*<a name="andrew"></a> Andrew*
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-*<a name="cindy"></a> Cindy*
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
 .
 
 .
 
 .
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-*<a name="hai"></a> Hai*
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
+**<a name="sprint-1"></a> Sprint 1**
 
-.
-
-.
-
-*<a name="harsh"></a> Harsh*
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
+Andrew:
 
-.
+Cindy:
 
-.
+Hai:
 
-.
+Harsh:
 
 .
 
 .
 
-*<a name="matthew"></a> Matthew*
-
 .
 
-.
+**<a name="sprint-2"></a> Sprint 2**
 
-.
+Andrew:
 
-.
+Cindy:
 
-.
+Hai:
 
-.
+Harsh:
 
 .
 
@@ -208,14 +64,13 @@ Changelog Table of Contents:
 
 .
 
-.
+**<a name="sprint-3"></a> Sprint 3**
 
-.
+Andrew:
 
-.
+Cindy:
 
-.
+Hai:
 
-.
+Harsh:
 
-.
