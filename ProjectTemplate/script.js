@@ -3,22 +3,6 @@
 // Version 1.0.0
 // Authors: Big Data Dynasty group CIS 440
 
-var userType = null
-var firstName = null
-var lastName = null
-var email = null
-var username = null
-var password = null
-var photoStyle = null
-var photoType = null
-var expPreference = null //Preferred photographer experience
-var custBudget = null
-var custAvailability = null
-
-
-
-
-
 function TestButtonHandler() {
     var webMethod = "ProjectServices.asmx/TestConnection";
     var parameters = "{}";
