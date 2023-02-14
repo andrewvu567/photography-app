@@ -21,7 +21,7 @@
                success: function (msg) {
                    if (msg.d) {
                        alert("Account created, logging you in.");
-                       window.location.href = 'home.html';
+                       //window.location.href = 'home.html';
                    }
                    else {
                        alert("A username already exists! Please try another.")
@@ -31,102 +31,132 @@
                    alert("Issue!");
                }
            });
-       }        
+       }
+
+       /* Parse Survey and output User Info */
+
+       function parseSurvey() {
+           username = $("#usernameInput").val()
+           console.log(username)
+           password = $("#passwordInput").val()
+           userType = $(".radioButtons1:checked").val()
+           photoStyle = $(".radioButtons2:checked").val()
+           photoType = $(".radioButtons3:checked").val()
+           expPreference = $(".radioButtons4:checked").val()
+           firstName = $("#firstName").val()
+           lastName = $("#lastName").val()
+           email = $("#emailAddress").val()
+           console.log(email)
+           availabilityInput = $("#freeText").val()
+
+           $("#formDiv").hide()
+
+           $("#userInfo").html("<p id='finalUserInfo'><b>Welcome " + username + "!</b>" + " This is our photography appointment system." + "<br><br>" + "Below is your information:" + "<br><br>" + "You are a " + userType + ". Your preferred photo style is  " + photoStyle + ". Your photo type is " + photoType + ".</p>");
+
+       }
 	</script> 
+
 
     <link href="style.css" rel="stylesheet" type="text/css" >
     <script type="text/javascript" src="script.js"></script>
 </head>
-<body>
 
-  <!-- <div class="Nav">
 
-      <a href="index.html">Home</a>
-      <a href="survey.html">Survey</a>
-  </div> -->
+<body id="bodyID">
 
-  <h1>Please fill out the survey below!</h1>
-  
-  <div class="survey-container">
-      <!-- Survey questions form -->
+    <!-- <div class="Nav">
+
+        <a href="index.html">Home</a>
+        <a href="survey.html">Survey</a>
+    </div> -->
+
+
+    <div id="userInfo" style="text-align: center;">
+
+    </div>
+
+ <!-- Survey questions form -->
+
+    <div id="formDiv" class="survey-container">
+        <h1>Please fill out the survey below!</h1>
         <form onsubmit="CreateAccount($('#usernameInput').val(), $('#passwordInput').val(), $('#emailAddress').val(),
-    $('#firstName').val(), $('.radioButtons1:checked').val(), $('#availabilityInput').val(), $('.radioButtons2:checked').val(),
-    $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val()); return false;">
-          <br>
+        $('#firstName').val(), $('.radioButtons1:checked').val(), $('#availabilityInput').val(), $('.radioButtons2:checked').val(),
+        $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val());parseSurvey();return false;">
+            <br>
 
-          <label>Are you a photographer or a client?</label><br>
-          <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceOne" name="userTypeSelection" value="Photographer" required>
-          <label class="userTypeLabels" for="userTypeChoiceOne">Photographer</label><br>
-          <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceTwo" name="userTypeSelection" value="Client">
-          <label class="userTypeLabels" for="userTypeChoiceTwo">Client</label><br><br>
+            <label>Are you a photographer or a client?</label><br>
+            <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceOne" name="userTypeSelection" value="Photographer" required>
+            <label class="userTypeLabels" for="userTypeChoiceOne">Photographer</label><br>
+            <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceTwo" name="userTypeSelection" value="Client">
+            <label class="userTypeLabels" for="userTypeChoiceTwo">Client</label><br><br>
 
-          <input id="usernameInput" type="text" placeholder="Username" required>
-          <input id="passwordInput" type="password" placeholder="Password" required><br><br>
+            <input id="usernameInput" type="text" placeholder="Username" required>
+            <input id="passwordInput" type="password" placeholder="Password" required><br><br>
 
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" name="firstName" required><br><br>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required><br><br>
 
-          <label for="emailAddress">Email Address:</label>
-          <input type="email" id="emailAddress" name="emailAddress" required><br><br>
+            <label for="emailAddress">Email Address:</label>
+            <input type="email" id="emailAddress" name="emailAddress" required><br><br>
 
-          <label>When is your desired photo session? Please include month, day, and year.</label><br>
-          <textarea id="availabilityInput" rows="10" cols="62" required></textarea><br><br>
+            <label>When is your desired photo session? Please include month, day, and year.</label><br>
+            <textarea id="availabilityInput" rows="10" cols="62" required></textarea><br><br>
 
-          <label>Preferred photograph style?</label><br>
-          <input class="radioButtons radioButtons2" type="radio" id="styleChoiceOne" name="photoStyleSelection" value="natureOutdoors" required>
-          <label class="photoStyleLabels" for="styleChoiceOne">Nature/Outdoors</label><br>
+            <label>Preferred photograph style?</label><br>
+            <input class="radioButtons radioButtons2" type="radio" id="styleChoiceOne" name="photoStyleSelection" value="Nature" required>
+            <label class="photoStyleLabels" for="styleChoiceOne">Nature/Outdoors</label><br>
 
-          <input class="radioButtons radioButtons2" type="radio" id="styleChoiceTwo" name="photoStyleSelection" value="naturalLighting">
-          <label class="photoStyleLabels" for="styleChoiceTwo">Natural Lighting</label><br>
+            <input class="radioButtons radioButtons2" type="radio" id="styleChoiceTwo" name="photoStyleSelection" value="Natural Lighting">
+            <label class="photoStyleLabels" for="styleChoiceTwo">Natural Lighting</label><br>
 
-          <input class="radioButtons radioButtons2" type="radio" id="styleChoiceThree" name="photoStyleSelection" value="studio">
-          <label class="photoStyleLabels" for="styleChoiceThree">Studio</label><br>
+            <input class="radioButtons radioButtons2" type="radio" id="styleChoiceThree" name="photoStyleSelection" value="Studio">
+            <label class="photoStyleLabels" for="styleChoiceThree">Studio</label><br>
 
-          <input class="radioButtons radioButtons2" type="radio" id="styleChoiceFour" name="photoStyleSelection" value="studioLighting">
-          <label class="photoStyleLabels" for="styleChoiceFour">Studio Lighting</label><br><br>
+            <input class="radioButtons radioButtons2" type="radio" id="styleChoiceFour" name="photoStyleSelection" value="Studio Lighting">
+            <label class="photoStyleLabels" for="styleChoiceFour">Studio Lighting</label><br><br>
 
-          <label>Preferred photo type?</label><br>
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceOne" name="photoTypeSelection" value="portrait" required>
-          <label class="photoTypeLabels" for="typeChoiceOne">Portrait</label><br>
+            <label>Preferred photo type?</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceOne" name="photoTypeSelection" value="portrait" required>
+            <label class="photoTypeLabels" for="typeChoiceOne">Portrait</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceTwo" name="photoTypeSelection" value="event">
-          <label class="photoTypeLabels" for="typeChoiceTwo">Event</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceTwo" name="photoTypeSelection" value="event">
+            <label class="photoTypeLabels" for="typeChoiceTwo">Event</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceThree" name="photoTypeSelection" value="wedding">
-          <label class="photoTypeLabels" for="typeChoiceThree">Wedding</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceThree" name="photoTypeSelection" value="wedding">
+            <label class="photoTypeLabels" for="typeChoiceThree">Wedding</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFour" name="photoTypeSelection" value="headshot">
-          <label class="photoTypeLabels" for="typeChoiceFour">Headshot</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFour" name="photoTypeSelection" value="headshot">
+            <label class="photoTypeLabels" for="typeChoiceFour">Headshot</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFive" name="photoTypeSelection" value="group">
-          <label class="photoTypeLabels" for="typeChoiceFive">Group</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFive" name="photoTypeSelection" value="group">
+            <label class="photoTypeLabels" for="typeChoiceFive">Group</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceSix" name="photoTypeSelection" value="family">
-          <label class="photoTypeLabels" for="typeChoiceSix">Family</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceSix" name="photoTypeSelection" value="family">
+            <label class="photoTypeLabels" for="typeChoiceSix">Family</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceEight" name="photoTypeSelection" value="baby">
-          <label class="photoTypeLabels" for="typeChoiceEight">Baby</label><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceEight" name="photoTypeSelection" value="baby">
+            <label class="photoTypeLabels" for="typeChoiceEight">Baby</label><br>
 
-          <input class="radioButtons radioButtons3" type="radio" id="typeChoiceNine" name="photoTypeSelection" value="grad">
-          <label class="photoTypeLabels" for="typeChoiceNine">Grad Photos</label><br><br>
+            <input class="radioButtons radioButtons3" type="radio" id="typeChoiceNine" name="photoTypeSelection" value="grad">
+            <label class="photoTypeLabels" for="typeChoiceNine">Grad Photos</label><br><br>
 
-          <label for="budgetOrRates">Budget or Range of Rates:</label>
-          <input type="text" id="budgetOrRates" name="budgetOrRates" required><br><br>
+            <label for="budgetOrRates">Budget or Range of Rates:</label>
+            <input type="text" id="budgetOrRates" name="budgetOrRates" required><br><br>
 
-          <label>Preferred photography experience?</label><br>
-          <input class="radioButtons radioButtons4" type="radio" id="expChoiceOne" name="expSelection" value="beginner" required>
-          <label class="expLabels" for="expChoiceOne">Beginner (1-3 years)</label><br>
+            <label>Preferred photography experience?</label><br>
+            <input class="radioButtons radioButtons4" type="radio" id="expChoiceOne" name="expSelection" value="beginner" required>
+            <label class="expLabels" for="expChoiceOne">Beginner (1-3 years)</label><br>
 
-          <input class="radioButtons radioButtons4" type="radio" id="expChoiceTwo" name="expSelection" value="intermediate">
-          <label class="expLabels" for="expChoiceTwo">Intermediate (3-5 years)</label><br>
+            <input class="radioButtons radioButtons4" type="radio" id="expChoiceTwo" name="expSelection" value="intermediate">
+            <label class="expLabels" for="expChoiceTwo">Intermediate (3-5 years)</label><br>
 
-          <input class="radioButtons radioButtons4" type="radio" id="expChoiceThree" name="expSelection" value="advanced">
-          <label class="expLabels" for="expChoiceThree">Advanced (5+ years)</label><br><br><br>
+            <input class="radioButtons radioButtons4" type="radio" id="expChoiceThree" name="expSelection" value="advanced">
+            <label class="expLabels" for="expChoiceThree">Advanced (5+ years)</label><br><br><br>
 
-          <input type="submit" value="Sign Up">
-      </form>
+            <input type="submit" value="Sign Up">
+        </form>
 
-  </div>
+    </div>
 
 </body>
 </html>
