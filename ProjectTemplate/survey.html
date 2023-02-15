@@ -36,23 +36,49 @@
        /* Parse Survey and output User Info */
 
        function parseSurvey() {
-           username = $("#usernameInput").val()
-           console.log(username)
-           password = $("#passwordInput").val()
-           userType = $(".radioButtons1:checked").val()
-           photoStyle = $(".radioButtons2:checked").val()
-           photoType = $(".radioButtons3:checked").val()
-           expPreference = $(".radioButtons4:checked").val()
-           firstName = $("#firstName").val()
-           lastName = $("#lastName").val()
-           email = $("#emailAddress").val()
-           console.log(email)
-           availabilityInput = $("#freeText").val()
+           username = $("#usernameInput").val();
+           password = $("#passwordInput").val();
+           userType = $(".radioButtons1:checked").val();
+           photoStyle = $(".radioButtons2:checked").val();
+           photoType = $(".radioButtons3:checked").val();
+           expPreference = $(".radioButtons4:checked").val();
+           firstName = $("#firstName").val();
+           lastName = $("#lastName").val();
+           email = $("#emailAddress").val();
+           availabilityInput = $("#freeText").val();
 
-           $("#formDiv").hide()
+           //Portrait: $100 - $300
+           //Event: $200 - $500
+           //Wedding: $500 - $2, 000
+           //Headshot: $50 - $200
+           //Group: $200 - $500
+           //Family: $150 - $300
+           //Baby: $150 - $300
+           //Grad: $50 - $300
 
-           $("#userInfo").html("<p id='finalUserInfo'><b>Welcome " + username + "!</b>" + " This is our photography appointment system." + "<br><br>" + "Below is your information:" + "<br><br>" + "You are a " + userType + ". Your preferred photo style is  " + photoStyle + ". Your photo type is " + photoType + ".</p>");
+           var matchingDict = {
+               "username": username,
+               "user_type": userType,
+               "photo_style": photoStyle,
+               "photo_type": photoType,
+               "experience": expPreference,
+               }
 
+           var priceDict = {
+               "portrait": "$100 - $300",
+               "event": "$200 - $500",
+               "wedding": "$500 - $2,000",
+               "headshot": "$50 - $200",
+               "group": "$200 - $500",
+               "family": "$150 - $300",
+               "baby": "$150 - $300",
+               "grad": "$50 - $300",
+           }
+
+           $("#formDiv").hide();
+
+           $("#userInfo").html("<h1 id='finalUserInfo'><b>Welcome " + username + "!</b>" + " This is our photography appointment system.</h1>" + "<h2>Below is your information:" + "<br><br>" + "You are a " + userType + ". Your preferred photo style is  " + photoStyle + ". Your photo type is " + photoType + ".</h2>");
+           $("#userInfo").append("<h2 id=calculate>Based on your preferred photo type, below is a price range you can expect for your service:" + "<br><br>" + "<b>" + priceDict[photoType] + "</b>" + "</h2>");
        }
 	</script> 
 
@@ -74,6 +100,7 @@
     <div id="userInfo" style="text-align: center;">
 
     </div>
+    
 
  <!-- Survey questions form -->
 
