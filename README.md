@@ -34,7 +34,10 @@ Changelog Table of Contents:
 
 **<a name="sprint-1"></a> Sprint 1**
 
-Andrew:
+Andrew: 
+- Set up database tables to store user, photographer, and client information (2/9)
+- Set up login functionality (2/10)
+- Set up account creation functionality (2/11)
 
 Cindy:
 
@@ -51,6 +54,7 @@ Harsh: Used JQuery to display user info after filling out survey, created base f
 **<a name="sprint-2"></a> Sprint 2**
 
 Andrew:
+- Set up database tables to keep track of rejected, accepted, and pending matches. (2/15)
 
 Cindy:
 
