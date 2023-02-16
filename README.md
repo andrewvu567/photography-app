@@ -61,6 +61,8 @@ Cindy:
 Hai:
 
 Harsh:
+- Created foundation for price calculator 2/14
+- Dynamically typed page with user info 2/14
 
 .
 
