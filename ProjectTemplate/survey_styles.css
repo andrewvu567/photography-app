@@ -17,7 +17,7 @@
 /* Put background image and text align to center */
 #formDiv {
     text-align: center;
-    background-image: url(Film_Camera.jpg);
+    background-image: url(survey_background.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -31,7 +31,7 @@
 
 /* pute white background and make it blur */
 #white-background{
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.8);
     color: black;
     margin-left: 200px;
     margin-right: 200px;
