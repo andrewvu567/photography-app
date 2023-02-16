@@ -43,7 +43,7 @@ Cindy:
 
 Hai: created a skeleton for sign in page with sign in and sign up form with entry box and submit button and experimented with basic ChatGPT CSS funtionality. 
 
-Harsh: Used JQuery to display user info after filling out survey, created base for backend parseSurvey function
+Harsh: Used JQuery to display user info after filling out survey, created base for backend parseSurvey function (2/10-2/11)
 
 .
 
