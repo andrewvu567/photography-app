@@ -34,13 +34,16 @@ Changelog Table of Contents:
 
 **<a name="sprint-1"></a> Sprint 1**
 
-Andrew:
+Andrew: 
+- Set up database tables to store user, photographer, and client information (2/9)
+- Set up login functionality (2/10)
+- Set up account creation functionality (2/11)
 
 Cindy:
 
 Hai: created a skeleton for sign in page with sign in and sign up form with entry box and submit button and experimented with basic ChatGPT CSS funtionality. 
 
-Harsh: Used JQuery to display user info after filling out survey, created base for backend parseSurvey function
+Harsh: Used JQuery to display user info after filling out survey, created base for backend parseSurvey function (2/10-2/11)
 
 .
 
@@ -51,12 +54,15 @@ Harsh: Used JQuery to display user info after filling out survey, created base f
 **<a name="sprint-2"></a> Sprint 2**
 
 Andrew:
+- Set up database tables to keep track of rejected, accepted, and pending matches. (2/15)
 
 Cindy:
 
 Hai:
 
 Harsh:
+- Created foundation for price calculator 2/14
+- Dynamically typed page with user info 2/14
 
 .
 

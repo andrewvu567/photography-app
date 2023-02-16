@@ -88,7 +88,8 @@ namespace ProjectTemplate
             {
                 sqlSelect = "insert into users (username, password, email, first_name, is_photographer) " +
                 "values(@usernameValue, @passwordValue, @emailValue, @firstNameValue, 0);" +
-                "insert into clients values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue);";
+                "insert into clients (username, availability, style, type, budget_range, experience)" +
+                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue);";
             }
 
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
