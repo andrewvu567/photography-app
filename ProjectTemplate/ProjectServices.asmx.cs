@@ -133,7 +133,7 @@ namespace ProjectTemplate
 
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
-                sqlSelect = "SELECT * FROM clients WHERE has_match = 0 AND username not in " +
+                sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
                     "(SELECT client_username FROM rejects WHERE photographer_username = @clientUsernameValue);";    
             }
             else
