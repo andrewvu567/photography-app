@@ -134,7 +134,7 @@ namespace ProjectTemplate
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
                 sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
-                    "(SELECT client_username FROM rejects WHERE photographer_username = @clientUsernameValue);";    
+                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue);";    
             }
             else
             {
@@ -143,15 +143,17 @@ namespace ProjectTemplate
                 }
                 else
                 {
-                    return "Add code here for returning photographers";
+                    sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM photographers WHERE username in" +
+                        "(SELECT photographer_username FROM pendings WHERE client_username = @clientUsernameValue);";
                 }
-
             }
             
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
             sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
             MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
 
             DataTable sqlDt = new DataTable("clientAccounts");
