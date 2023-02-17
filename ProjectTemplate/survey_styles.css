@@ -40,10 +40,10 @@
 
 /* Title font style */
 h1 {
-        font-family: Photography_bold;
-        font-size: 40px;
-        outline-style: double;
-        outline-offset: 10px;
+    font-family: Photography_bold;
+    font-size: 40px;
+    outline-style: double;
+    outline-offset: 10px;
 }
 
 /* fonts for all question */
