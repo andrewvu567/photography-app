@@ -1,0 +1,63 @@
+@font-face {
+    font-family: "Photography_bold";
+    src: url(Bold.ttf);
+}
+
+@font-face {
+    font-family: "Photography_regular";
+    src: url(Regular.ttf);
+}
+
+@font-face {
+    font-family: "Photography_light";
+    src: url(Light.ttf);
+}
+
+h1 {
+    font-family: Photography_bold;
+    font-size: 40px;
+    text-align: center;
+}
+
+body {
+    background-image: url(indexBackground2.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.indexPage {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    margin-left: 200px;
+    margin-right: 200px;
+    padding: 10px 50px 25px 50px;
+}
+
+.input {
+    border-width: 2px;
+    border-style: solid;
+    background-color: transparent;
+    border-color: black;
+    color: black;
+}
+
+.nav {
+    background-color: transparent;
+    padding: 12px 0px 15px 0px;
+    overflow: hidden;
+    font-size: larger;
+    font-family: Photography_regular;
+}
+
+.nav a {
+    color: black;
+    text-decoration: none;
+    padding: 12px 14px;
+}
+
+.nav a:hover {
+    color: white;
+    background-color: rgb(46, 46, 46);
+}

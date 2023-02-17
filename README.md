@@ -55,6 +55,7 @@ Harsh: Used JQuery to display user info after filling out survey, created base f
 
 Andrew:
 - Set up database tables to keep track of rejected, accepted, and pending matches. (2/15)
+- Allow clients/photographers to see possible matches (2/16)
 
 Cindy:
 

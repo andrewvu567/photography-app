@@ -5,14 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script>
-        function initialize(){
+        function initialize() {
             document.getElementById('modify').innerHTML = "HELLO!"
+            var webMethod = "ProjectServices.asmx/ReturnPotentialMatches";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    let users_table = document.getElementById('usersTable');
+
+                    if (msg.d == "Already Matched!") {
+                        $("#usersTable").hide();
+                    }
+                    else {
+                        let json_objs = JSON.parse(msg.d);
+                        for (let i = 0; i < json_objs.length; i++) {
+                            let row = users_table.insertRow(i + 1);
+
+                            let usernameCell = row.insertCell(0);
+                            let availabilityCell = row.insertCell(1);
+                            let styleCell = row.insertCell(2);
+                            let typeCell = row.insertCell(3);
+                            let rangeCell = row.insertCell(4);
+                            let experienceCell = row.insertCell(5);
+                            let buttonsCell = row.insertCell(6);
+
+                            usernameCell.innerHTML = json_objs[i].username;
+                            availabilityCell.innerHTML = json_objs[i].availability;
+                            styleCell.innerHTML = json_objs[i].style;
+                            typeCell.innerHTML = json_objs[i].type;
+                            rangeCell.innerHTML = json_objs[i].budget_range;
+                            experienceCell.innerHTML = json_objs[i].experience;
+                            buttonsCell.innerHTML = `<button>Accept</button> <button>Reject</button>`;
+                        }
+                    }
+
+                    
+                },
+                error: function (e) {
+                    console.log("Issue!");
+                }
+            });
         }
     </script>
 
 </head>
 <body onload="initialize()">
     <h1 id="modify">Welcome to the homepage.</h1>
+
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Availability</th>
+                <th>Style</th>
+                <th>Type</th>
+                <th>Budget Range</th>
+                <th>Experience</th>
+                <th>Accept/Deny</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </body>
 </html>
