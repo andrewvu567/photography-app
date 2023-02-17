@@ -26,9 +26,29 @@ a:link, a:visited {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    color: black;
 }
 
 a:hover, a:active {
     background-color: grey;
     color: white;
+}
+
+body {
+    background-image: url(indexBackground2.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.indexPage {
+    text-align: center;
+}
+
+.input {
+    border-width: 2px;
+    border-style: solid;
+    background-color: transparent;
+    border-color: black;
+    color: black;
 }
