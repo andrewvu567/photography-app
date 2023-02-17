@@ -5,9 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script>
-        function initialize(){
+        function initialize() {
             document.getElementById('modify').innerHTML = "HELLO!"
+            var webMethod = "ProjectServices.asmx/ReturnPotentialMatches";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    json_objs = JSON.parse(msg.d);
+                },
+                error: function (e) {
+                    console.log("Issue!");
+                }
+            });
         }
     </script>
 

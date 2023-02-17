@@ -7,6 +7,8 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Linq.Expressions;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 
 namespace ProjectTemplate
 {
@@ -26,7 +28,6 @@ namespace ProjectTemplate
 		private string getConString() {
 			return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName+"; UID=" + dbID + "; PASSWORD=" + dbPass;
 		}
-        ////////////////////////////////////////////////////////////////////////
 
         [WebMethod(EnableSession = true)] //NOTICE: gotta enable session on each individual method
         public bool LogOn(string username, string password)
@@ -122,6 +123,71 @@ namespace ProjectTemplate
                 sqlConnection.Close();
                 return false;
             }
+
+        }
+        
+        [WebMethod(EnableSession = true)]
+        public string ReturnPotentialMatches()
+        {
+            string sqlSelect;
+
+            if (Convert.ToInt32(Session["is_photographer"]) == 1)
+            {
+                sqlSelect = "SELECT * FROM clients WHERE has_match = 0 AND username not in " +
+                    "(SELECT client_username FROM rejects WHERE photographer_username = @clientUsernameValue);";    
+            }
+            else
+            {
+                if (checkMatchedStatus() == 1){
+                    return "Already Matched!";
+                }
+                else
+                {
+                    return "Add code here for returning photographers";
+                }
+
+            }
+            
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            DataTable sqlDt = new DataTable("clientAccounts");
+            sqlDa.Fill(sqlDt);
+
+            string output = "[";
+
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+                output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"availability\":\"" + sqlDt.Rows[i]["availability"] + "\",\"style\":\"" +
+                    sqlDt.Rows[i]["style"] + "\", \"type\":\"" + sqlDt.Rows[i]["type"] + "\", \"budget_range\":\"" + sqlDt.Rows[i]["budget_range"] +
+                    "\", \"experience\":\"" + sqlDt.Rows[i]["experience"] + "\"}";
+
+                if (i != sqlDt.Rows.Count - 1)
+                {
+                    output += ",";
+                }
+            }
+            output += "]";
+
+            return output;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public int checkMatchedStatus()
+        {
+            string sqlSelect = "SELECT has_match FROM clients WHERE username = @clientUsernameValue;";
+           
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+            
+            return Convert.ToInt32(sqlCommand.ExecuteScalar());
 
         }
     }
