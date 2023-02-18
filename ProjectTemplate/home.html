@@ -8,6 +8,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+        function accept(username) {
+
+        }
+
+        function reject(username) {
+
+        }
+
+
+
         function initialize() {
             document.getElementById('modify').innerHTML = "HELLO!"
             var webMethod = "ProjectServices.asmx/ReturnPotentialMatches";
@@ -42,7 +52,7 @@
                             typeCell.innerHTML = json_objs[i].type;
                             rangeCell.innerHTML = json_objs[i].budget_range;
                             experienceCell.innerHTML = json_objs[i].experience;
-                            buttonsCell.innerHTML = `<button>Accept</button> <button>Reject</button>`;
+                            buttonsCell.innerHTML = `<button value = \"${json_objs[i].username}\" onclick= \"accept(this.value)\">Accept</button> <button value = \"${json_objs[i].username}\" onclick = \"reject(this.value)\">Reject</button>`;
                         }
                     }
 
