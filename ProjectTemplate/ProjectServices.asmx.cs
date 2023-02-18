@@ -134,7 +134,8 @@ namespace ProjectTemplate
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
                 sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
-                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue);";    
+                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue) " +
+                    "AND username not in (SELECT client_username FROM pendings WHERE photographer_username = @photographerUsernameValue);";    
             }
             else
             {
@@ -191,6 +192,50 @@ namespace ProjectTemplate
             
             return Convert.ToInt32(sqlCommand.ExecuteScalar());
 
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool rejectMatch(string username)
+        {
+            string clientUsername;
+            string photographerUsername;
+            string sqlSelect;
+
+            if (Convert.ToInt32(Session["is_photographer"]) == 1)
+            {
+                clientUsername = username;
+                photographerUsername = Convert.ToString(Session["username"]);
+                sqlSelect = "INSERT INTO rejects VALUES(@clientUsernameValue, @photographerUsernameValue);";
+            }
+            else
+            {
+                photographerUsername = username;
+                clientUsername = Convert.ToString(Session["username"]);
+                sqlSelect = "INSERT INTO rejects VALUES(@clientUsernameValue, @photographerUsernameValue);" +
+                    "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;";
+            }
+
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(clientUsername));
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(photographerUsername));
+
+
+            sqlConnection.Open();
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+                
+            }
+            catch(Exception e)
+            {
+                sqlConnection.Close();
+                return false;
+            }
         }
     }
 }

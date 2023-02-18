@@ -9,11 +9,31 @@
 
     <script>
         function accept(username) {
-
+            
         }
 
         function reject(username) {
+            var webMethod = "ProjectServices.asmx/rejectMatch";
+            var parameters = "{\"username\":\"" + encodeURI(username) + "\"}";
 
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d) { 
+                        window.location.href = 'home.html';
+                    }
+                    else {
+                        alert("A username already exists! Please try another.");
+                    }
+                },
+                error: function (e) {
+                    alert("Issue!");
+                }
+            });
         }
 
 
