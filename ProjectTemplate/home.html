@@ -47,7 +47,7 @@
                         window.location.href = 'home.html';
                     }
                     else {
-                        alert("SQL Issue!.");
+                        alert("SQL Issue!");
                     }
                 },
                 error: function (e) {
@@ -59,7 +59,6 @@
 
 
         function initialize() {
-            document.getElementById('modify').innerHTML = "HELLO!"
             var webMethod = "ProjectServices.asmx/ReturnPotentialMatches";
 
             $.ajax({
@@ -72,6 +71,8 @@
 
                     if (msg.d == "Already Matched!") {
                         $("#usersTable").hide();
+                        $("#message").text("You already have a match! Please go to the matches page for more details!")
+
                     }
                     else {
                         let json_objs = JSON.parse(msg.d);
@@ -107,8 +108,8 @@
 
 </head>
 <body onload="initialize()">
-    <h1 id="modify">Welcome to the homepage.</h1>
-
+    <h1 id="modify">Pending Matches</h1>
+    <p id="message">The following table shows your possible matches:</p>
     <table id="usersTable">
         <thead>
             <tr>
