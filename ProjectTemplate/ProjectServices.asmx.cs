@@ -222,7 +222,6 @@ namespace ProjectTemplate
             sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(clientUsername));
             sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(photographerUsername));
 
-
             sqlConnection.Open();
             try
             {
@@ -232,6 +231,50 @@ namespace ProjectTemplate
                 
             }
             catch(Exception e)
+            {
+                sqlConnection.Close();
+                return false;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool acceptMatch(string username)
+        {
+            string clientUsername;
+            string photographerUsername;
+            string sqlSelect;
+
+            if(Convert.ToInt32(Session["is_photographer"]) == 1)
+            {
+                clientUsername = username;
+                photographerUsername = Convert.ToString(Session["username"]);
+                sqlSelect = "INSERT INTO pendings VALUES(@clientUsernameValue, @photographerUsernameValue);";
+            }
+            else
+            {
+                photographerUsername = username;
+                clientUsername= Convert.ToString(Session["username"]);
+                sqlSelect = "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;" +
+                    "INSERT INTO matches VALUES(@clientUsernameValue, @photographerUsernameValue);" +
+                    "UPDATE clients SET has_match = 1 WHERE username = @clientUsernameValue";
+            }
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(clientUsername));
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(photographerUsername));
+
+            sqlConnection.Open();
+
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+
+            }
+            catch (Exception e)
             {
                 sqlConnection.Close();
                 return false;
