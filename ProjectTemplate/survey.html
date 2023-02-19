@@ -34,27 +34,19 @@
        }
 
        /* Parse Survey and output User Info */
-
+       var finalPrice = 50;
        function parseSurvey() {
            username = $("#usernameInput").val();
            password = $("#passwordInput").val();
            userType = $(".radioButtons1:checked").val();
            photoStyle = $(".radioButtons2:checked").val();
            photoType = $(".radioButtons3:checked").val();
-           expPreference = $(".radioButtons4:checked").val();
+           expPreference = parseInt($(".radioButtons4:checked").val());
            firstName = $("#firstName").val();
            lastName = $("#lastName").val();
            email = $("#emailAddress").val();
            availabilityInput = $("#freeText").val();
-
-           //Portrait: $100 - $300
-           //Event: $200 - $500
-           //Wedding: $500 - $2, 000
-           //Headshot: $50 - $200
-           //Group: $200 - $500
-           //Family: $150 - $300
-           //Baby: $150 - $300
-           //Grad: $50 - $300
+           sessionLength = parseInt($(".radioButtons5").val());
 
            var matchingDict = {
                "username": username,
@@ -62,23 +54,36 @@
                "photo_style": photoStyle,
                "photo_type": photoType,
                "experience": expPreference,
-               }
+           };
 
            var priceDict = {
-               "portrait": "$100 - $300",
-               "event": "$200 - $500",
-               "wedding": "$500 - $2,000",
-               "headshot": "$50 - $200",
-               "group": "$200 - $500",
-               "family": "$150 - $300",
-               "baby": "$150 - $300",
-               "grad": "$50 - $300",
+               "portrait": 200,
+               "event": 350,
+               "wedding": 1200,
+               "headshot": 100,
+               "group": 250,
+               "family": 200,
+               "baby": 200,
+               "grad": 150,
+
+           };
+
+           finalPrice += priceDict[photoType];
+           if (!(isNaN(sessionLength))){
+               finalPrice *= sessionLength;
            }
+           if (!(isNaN(expPreference))) {
+               finalPrice *= expPreference;
+           }
+           
+        //calculator
+           console.log('CHANGE DETECTED');
+           console.log(finalPrice);
+               $("#calculator").html("<h1 id='finalUserInfo'> " + "Estimated cost of services:<br><br>" + "$" + finalPrice + "</h1>");
 
-           $("#formDiv").hide();
 
-           $("#userInfo").html("<h1 id='finalUserInfo'><b>Welcome " + username + "!</b>" + " This is our photography appointment system.</h1>" + "<h2>Below is your information:" + "<br><br>" + "You are a " + userType + ". Your preferred photo style is  " + photoStyle + ". Your photo type is " + photoType + ".</h2>");
-           $("#userInfo").append("<h2 id=calculate>Based on your preferred photo type, below is a price range you can expect for your service:" + "<br><br>" + "<b>" + priceDict[photoType] + "</b>" + "</h2>");
+          
+           //$("#userInfo").append("<h2 id=calculate>Based on your preferred photo type, below is a price range you can expect for your service:" + "<br><br>" + "<b>" + priceDict[photoType] + "</b>" + "</h2>");
        }
 	</script> 
 
@@ -96,11 +101,6 @@
         <a href="survey.html"><i class="fa fa-fw fa-pencil-square-o"></i>Survey</a>
     </div> -->
 
-    <div id="userInfo" style="text-align: center;">
-
-    </div>
-    
-
  <!-- Survey questions form -->
 
     <div id="formDiv" class="survey-container">
@@ -109,11 +109,14 @@
             <a href="survey.html"><i class="fa fa-fw fa-pencil-square-o"></i>Survey</a>
         </div>
         <div id="white-background">
-            <h1>PLEASE FILL OUT THE SURVEY BELOW!</h1>
+            <h1 id="filloutSurvey">PLEASE FILL OUT THE SURVEY BELOW!</h1>
             <div id="mainDiv" class="survey-body">
+                <div id="calculator" style="text-align: right;">
+
+                </div>
                 <form onsubmit="CreateAccount($('#usernameInput').val(), $('#passwordInput').val(), $('#emailAddress').val(),
                 $('#firstName').val(), $('.radioButtons1:checked').val(), $('#availabilityInput').val(), $('.radioButtons2:checked').val(),
-                $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val());parseSurvey();return false;">
+                $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val());return false;">
                     <br>
 
                     <label class="questions">Are you a photographer or a client?</label><br>
@@ -133,8 +136,8 @@
 
                     <label class="questions">When is your desired photo session? Please include month, day, and year.</label><br>
                     <textarea class="inputBox" id="availabilityInput" rows="10" cols="62" required></textarea><br><br>
-
                     <label class="questions">Preferred photograph style?</label><br>
+
                     <input class="radioButtons radioButtons2" type="radio" id="styleChoiceOne" name="photoStyleSelection" value="Nature" required>
                     <label class="photoStyleLabels" for="styleChoiceOne">Nature/Outdoors</label><br>
 
@@ -148,44 +151,56 @@
                     <label class="photoStyleLabels" for="styleChoiceFour">Studio Lighting</label><br><br>
 
                     <label class="questions">Preferred photo type?</label><br>
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceOne" name="photoTypeSelection" value="portrait" required>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceOne" name="photoTypeSelection" value="portrait" required>
                     <label class="photoTypeLabels" for="typeChoiceOne">Portrait</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceTwo" name="photoTypeSelection" value="event">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceTwo" name="photoTypeSelection" value="event">
                     <label class="photoTypeLabels" for="typeChoiceTwo">Event</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceThree" name="photoTypeSelection" value="wedding">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceThree" name="photoTypeSelection" value="wedding">
                     <label class="photoTypeLabels" for="typeChoiceThree">Wedding</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFour" name="photoTypeSelection" value="headshot">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceFour" name="photoTypeSelection" value="headshot">
                     <label class="photoTypeLabels" for="typeChoiceFour">Headshot</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceFive" name="photoTypeSelection" value="group">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceFive" name="photoTypeSelection" value="group">
                     <label class="photoTypeLabels" for="typeChoiceFive">Group</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceSix" name="photoTypeSelection" value="family">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceSix" name="photoTypeSelection" value="family">
                     <label class="photoTypeLabels" for="typeChoiceSix">Family</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceEight" name="photoTypeSelection" value="baby">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceEight" name="photoTypeSelection" value="baby">
                     <label class="photoTypeLabels" for="typeChoiceEight">Baby</label><br>
 
-                    <input class="radioButtons radioButtons3" type="radio" id="typeChoiceNine" name="photoTypeSelection" value="grad">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons3" type="radio" id="typeChoiceNine" name="photoTypeSelection" value="grad">
                     <label class="photoTypeLabels" for="typeChoiceNine">Grad Photos</label><br><br>
-
                     <label class="questions" for="budgetOrRates">Budget or Range of Rates:</label>
                     <input class="inputBox" type="text" id="budgetOrRates" name="budgetOrRates" required><br><br>
 
                     <label class="questions">Preferred photography experience?</label><br>
-                    <input class="radioButtons radioButtons4" type="radio" id="expChoiceOne" name="expSelection" value="beginner" required>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceOne" name="expSelection" value="1" required>
                     <label class="expLabels" for="expChoiceOne">Beginner (1-3 years)</label><br>
 
-                    <input class="radioButtons radioButtons4" type="radio" id="expChoiceTwo" name="expSelection" value="intermediate">
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceTwo" name="expSelection" value="1.5">
                     <label class="expLabels" for="expChoiceTwo">Intermediate (3-5 years)</label><br>
 
-                    <input class="radioButtons radioButtons4" type="radio" id="expChoiceThree" name="expSelection" value="advanced">
-                    <label class="expLabels" for="expChoiceThree">Advanced (5+ years)</label><br><br><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceThree" name="expSelection" value="2">
+                    <label class="expLabels" for="expChoiceThree">Advanced (5+ years)</label><br><br>
 
-                    <input class="inputBox" type="submit" value="Sign Up">
+                    <label class="questions">Preferred photography experience?</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength1" name="sessionLength" value="1">
+                    <label class="lengthLabels" for="sessionLength1">30 Minutes</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength2" name="sessionLength" value="2">
+                    <label class="lengthLabels" for="sessionLength1">60 minutes</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength3" name="sessionLength" value="2.5">
+                    <label class="lengthLabels" for="sessionLength1">90 minutes</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength4" name="sessionLength" value="3">
+                    <label class="lengthLabels" for="sessionLength1">2 hours</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength5" name="sessionLength" value="3.5">
+                    <label class="lengthLabels" for="sessionLength1">2.5 hours</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength7" name="sessionLength" value="4">
+                    <label class="lengthLabels" for="sessionLength1">3 hours</label><br><br><br>
+                    <input onchange="parseSurvey()" class="inputBox" type="submit" value="Sign Up">
                 </form>
             </div>
         </div>
