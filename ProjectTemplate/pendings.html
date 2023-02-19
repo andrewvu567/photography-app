@@ -8,6 +8,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+        function logout() {
+            var webMethod = "ProjectServices.asmx/LogOff";
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d) {
+                        return true;
+                    }
+                    else {
+                        alert("Log off failed!");
+                    }
+                },
+                error: function (e) {
+                    alert("Issue!");
+                }
+            });
+        }
+
         function reject(username) {
             var webMethod = "ProjectServices.asmx/rejectMatch";
             var parameters = "{\"username\":\"" + encodeURI(username) + "\"}";
@@ -109,6 +130,7 @@
 </head>
 <body onload="initialize()">
     <h1 id="modify">Pending Matches</h1>
+    <a href="index.html" onclick="logout();">Log Out!</a>
     <p id="message">The following table shows your possible matches:</p>
     <table id="usersTable">
         <thead>

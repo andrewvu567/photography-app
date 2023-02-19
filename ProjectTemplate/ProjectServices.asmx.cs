@@ -280,5 +280,12 @@ namespace ProjectTemplate
                 return false;
             }
         }
+
+        [WebMethod(EnableSession = true)]
+        public bool LogOff()
+        {
+            Session.Abandon();
+            return true;
+        }
     }
 }
