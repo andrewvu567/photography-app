@@ -67,6 +67,8 @@ Cindy:
 - make constant design style for index and survey page (2/16)
 
 Hai:
+- created board.html/posting board
+- added css for board.html
 
 Harsh:
 - Created foundation for price calculator 2/14
