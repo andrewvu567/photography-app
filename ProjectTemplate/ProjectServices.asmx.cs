@@ -74,7 +74,7 @@ namespace ProjectTemplate
 
         [WebMethod(EnableSession = true)]
         public bool CreateAccount(string username, string password, string email, string first_name, string is_photographer, 
-            string availability, string style, string type, string range, string experience)
+            string availability, string style, string type, string range, string experience, string session_length, string num_outfits)
         {
             string sqlSelect;
 
@@ -89,8 +89,8 @@ namespace ProjectTemplate
             {
                 sqlSelect = "insert into users (username, password, email, first_name, is_photographer) " +
                 "values(@usernameValue, @passwordValue, @emailValue, @firstNameValue, 0);" +
-                "insert into clients (username, availability, style, type, budget_range, experience)" +
-                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue);";
+                "insert into clients (username, availability, style, type, budget_range, experience, session_length, num_outfits)" +
+                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue, @sessionLengthValue, @numOutfitsValue);";
             }
 
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
@@ -106,7 +106,11 @@ namespace ProjectTemplate
             sqlCommand.Parameters.AddWithValue("@typeValue", HttpUtility.UrlDecode(type));
             sqlCommand.Parameters.AddWithValue("@rangeValue", HttpUtility.UrlDecode(range));
             sqlCommand.Parameters.AddWithValue("@experienceValue", HttpUtility.UrlDecode(experience));
-    
+            sqlCommand.Parameters.AddWithValue("@sessionLengthValue", HttpUtility.UrlDecode(session_length));
+            sqlCommand.Parameters.AddWithValue("@numOutfitsValue", HttpUtility.UrlDecode(num_outfits));
+
+
+
             sqlConnection.Open();
             //we're using a try/catch so that if the query errors out we can handle it gracefully
             //by closing the connection and moving on

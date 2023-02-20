@@ -4,13 +4,14 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script type="text/javascript">
-       function CreateAccount(username, password, email, first_name, is_photographer, availability, style, type, range, experience) {
+       function CreateAccount(username, password, email, first_name, is_photographer, availability, style, type, range, experience, session_length, num_outfits) {
            var webMethod = "ProjectServices.asmx/CreateAccount";
            var parameters = "{\"username\":\"" + encodeURI(username) + "\",\"password\":\"" + encodeURI(password) +
                "\",\"email\":\"" + encodeURI(email) + "\",\"first_name\":\"" + encodeURI(first_name) + "\",\"is_photographer\":\""
                + encodeURI(is_photographer) + "\",\"availability\":\"" + encodeURI(availability) +
                "\",\"style\":\"" + encodeURI(style) + "\",\"type\":\"" + encodeURI(type) +
-               "\",\"range\":\"" + encodeURI(range) + "\",\"experience\":\"" + encodeURI(experience) + "\"}";
+               "\",\"range\":\"" + encodeURI(range) + "\",\"experience\":\"" + encodeURI(experience) + "\",\"session_length\":\"" + encodeURI(session_length) +
+               "\",\"num_outfits\":\"" + encodeURI(num_outfits) + "\"}";
 
            $.ajax({
                type: "POST",
@@ -142,7 +143,8 @@
                 </div>
                 <form onsubmit="CreateAccount($('#usernameInput').val(), $('#passwordInput').val(), $('#emailAddress').val(),
                 $('#firstName').val(), $('.radioButtons1:checked').val(), $('#availabilityInput').val(), $('.radioButtons2:checked').val(),
-                $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val());return false;">
+                $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val(), $('.radioButtons5:checked').val(),
+                $('.radioButtons6:checked').val()); return false;">
                     <br>
 
                     <label class="questions">Are you a photographer or a client?</label><br>
