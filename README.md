@@ -39,7 +39,9 @@ Andrew:
 - Set up login functionality (2/10)
 - Set up account creation functionality (2/11)
 
-Cindy:
+Cindy: Used CSS to design survey page (2/13-15)
+- added background image
+- added new font to font family
 
 Hai: created a skeleton for sign in page with sign in and sign up form with entry box and submit button and experimented with basic ChatGPT CSS funtionality. 
 
@@ -56,14 +58,20 @@ Harsh: Used JQuery to display user info after filling out survey, created base f
 Andrew:
 - Set up database tables to keep track of rejected, accepted, and pending matches. (2/15)
 - Allow clients/photographers to see possible matches (2/16)
+- Allow clients/photographers to accept & reject possible matches (2/17)
+- Add logout functionality (2/18)
+- Modify database tables and appropriate insert statements (2/19)
 
 Cindy:
+- designed index html page (2/16)
+- make constant design style for index and survey page (2/16)
 
 Hai:
 
 Harsh:
 - Created foundation for price calculator 2/14
 - Dynamically typed page with user info 2/14
+- Finished dynamic calculator 2/19
 
 .
 

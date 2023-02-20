@@ -74,10 +74,11 @@ namespace ProjectTemplate
 
         [WebMethod(EnableSession = true)]
         public bool CreateAccount(string username, string password, string email, string first_name, string is_photographer, 
-            string availability, string style, string type, string range, string experience)
+            string availability, string style, string type, string range, string experience, string session_length, string num_outfits)
         {
             string sqlSelect;
 
+            //Insert statements depend on whether or not user is is_photographer
             if (is_photographer == "Photographer")
             {
 
@@ -89,8 +90,8 @@ namespace ProjectTemplate
             {
                 sqlSelect = "insert into users (username, password, email, first_name, is_photographer) " +
                 "values(@usernameValue, @passwordValue, @emailValue, @firstNameValue, 0);" +
-                "insert into clients (username, availability, style, type, budget_range, experience)" +
-                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue);";
+                "insert into clients (username, availability, style, type, budget_range, experience, session_length, num_outfits)" +
+                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue, @sessionLengthValue, @numOutfitsValue);";
             }
 
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
@@ -106,13 +107,18 @@ namespace ProjectTemplate
             sqlCommand.Parameters.AddWithValue("@typeValue", HttpUtility.UrlDecode(type));
             sqlCommand.Parameters.AddWithValue("@rangeValue", HttpUtility.UrlDecode(range));
             sqlCommand.Parameters.AddWithValue("@experienceValue", HttpUtility.UrlDecode(experience));
-    
+            sqlCommand.Parameters.AddWithValue("@sessionLengthValue", HttpUtility.UrlDecode(session_length));
+            sqlCommand.Parameters.AddWithValue("@numOutfitsValue", HttpUtility.UrlDecode(num_outfits));
+
+
+
             sqlConnection.Open();
             //we're using a try/catch so that if the query errors out we can handle it gracefully
             //by closing the connection and moving on
             try{
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
+                //Set session variables 
                 Session["username"] = username;
                 Session["is_photographer"] = password;
                 return true;
@@ -133,8 +139,10 @@ namespace ProjectTemplate
 
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
+                //Return clients who have not been matched, who have not been rejected by the prhotographer and are not in a pending match with the photographer
                 sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
-                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue);";    
+                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue) " +
+                    "AND username not in (SELECT client_username FROM pendings WHERE photographer_username = @photographerUsernameValue);";    
             }
             else
             {
@@ -143,6 +151,7 @@ namespace ProjectTemplate
                 }
                 else
                 {
+                    //Return photographers who have already accepted the client
                     sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM photographers WHERE username in" +
                         "(SELECT photographer_username FROM pendings WHERE client_username = @clientUsernameValue);";
                 }
@@ -161,6 +170,7 @@ namespace ProjectTemplate
 
             string output = "[";
 
+            //Returning the pulled users in a javascript objects string
             for (int i = 0; i < sqlDt.Rows.Count; i++)
             {
                 output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"availability\":\"" + sqlDt.Rows[i]["availability"] + "\",\"style\":\"" +
@@ -177,6 +187,7 @@ namespace ProjectTemplate
             return output;
         }
 
+        //Helper function for checking if a client has already been matched
         [WebMethod(EnableSession = true)]
         public int checkMatchedStatus()
         {
@@ -191,6 +202,101 @@ namespace ProjectTemplate
             
             return Convert.ToInt32(sqlCommand.ExecuteScalar());
 
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool rejectMatch(string username)
+        {
+            string clientUsername;
+            string photographerUsername;
+            string sqlSelect;
+
+            if (Convert.ToInt32(Session["is_photographer"]) == 1)
+            {
+                clientUsername = username;
+                photographerUsername = Convert.ToString(Session["username"]);
+                sqlSelect = "INSERT INTO rejects VALUES(@clientUsernameValue, @photographerUsernameValue);";
+            }
+            else
+            {
+                photographerUsername = username;
+                clientUsername = Convert.ToString(Session["username"]);
+                //Delete from pendings because client does not want to match with the photographer who accepted it
+                sqlSelect = "INSERT INTO rejects VALUES(@clientUsernameValue, @photographerUsernameValue);" +
+                    "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;";
+            }
+
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(clientUsername));
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(photographerUsername));
+
+            sqlConnection.Open();
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+                
+            }
+            catch(Exception e)
+            {
+                sqlConnection.Close();
+                return false;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool acceptMatch(string username)
+        {
+            string clientUsername;
+            string photographerUsername;
+            string sqlSelect;
+
+            if(Convert.ToInt32(Session["is_photographer"]) == 1)
+            {
+                clientUsername = username;
+                photographerUsername = Convert.ToString(Session["username"]);
+                sqlSelect = "INSERT INTO pendings VALUES(@clientUsernameValue, @photographerUsernameValue);";
+            }
+            else
+            {
+                photographerUsername = username;
+                clientUsername= Convert.ToString(Session["username"]);
+                sqlSelect = "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;" +
+                    "INSERT INTO matches VALUES(@clientUsernameValue, @photographerUsernameValue);" +
+                    "UPDATE clients SET has_match = 1 WHERE username = @clientUsernameValue";
+            }
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(clientUsername));
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(photographerUsername));
+
+            sqlConnection.Open();
+
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                sqlConnection.Close();
+                return false;
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool LogOff()
+        {
+            Session.Abandon();
+            return true;
         }
     }
 }

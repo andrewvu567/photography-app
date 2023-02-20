@@ -39,11 +39,17 @@
 }
 
 /* Title font style */
-h1 {
+#filloutSurvey {
     font-family: Photography_bold;
     font-size: 40px;
     outline-style: double;
     outline-offset: 10px;
+}
+
+#finalUserInfo {
+    font-family:Photography_bold;
+    font-size: 40px;
+    text-align:center;
 }
 
 /* fonts for all question */
