@@ -59,6 +59,8 @@ Andrew:
 - Set up database tables to keep track of rejected, accepted, and pending matches. (2/15)
 - Allow clients/photographers to see possible matches (2/16)
 - Allow clients/photographers to accept & reject possible matches (2/17)
+- Add logout functionality (2/18)
+- Modify database tables and appropriate insert statements (2/19)
 
 Cindy:
 - designed index html page (2/16)
