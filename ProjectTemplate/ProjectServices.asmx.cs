@@ -78,6 +78,7 @@ namespace ProjectTemplate
         {
             string sqlSelect;
 
+            //Insert statements depend on whether or not user is is_photographer
             if (is_photographer == "Photographer")
             {
 
@@ -117,6 +118,7 @@ namespace ProjectTemplate
             try{
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
+                //Set session variables 
                 Session["username"] = username;
                 Session["is_photographer"] = password;
                 return true;
@@ -137,6 +139,7 @@ namespace ProjectTemplate
 
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
+                //Return clients who have not been matched, who have not been rejected by the prhotographer and are not in a pending match with the photographer
                 sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
                     "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue) " +
                     "AND username not in (SELECT client_username FROM pendings WHERE photographer_username = @photographerUsernameValue);";    
@@ -148,6 +151,7 @@ namespace ProjectTemplate
                 }
                 else
                 {
+                    //Return photographers who have already accepted the client
                     sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM photographers WHERE username in" +
                         "(SELECT photographer_username FROM pendings WHERE client_username = @clientUsernameValue);";
                 }
@@ -166,6 +170,7 @@ namespace ProjectTemplate
 
             string output = "[";
 
+            //Returning the pulled users in a javascript objects string
             for (int i = 0; i < sqlDt.Rows.Count; i++)
             {
                 output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"availability\":\"" + sqlDt.Rows[i]["availability"] + "\",\"style\":\"" +
@@ -182,6 +187,7 @@ namespace ProjectTemplate
             return output;
         }
 
+        //Helper function for checking if a client has already been matched
         [WebMethod(EnableSession = true)]
         public int checkMatchedStatus()
         {
@@ -215,6 +221,7 @@ namespace ProjectTemplate
             {
                 photographerUsername = username;
                 clientUsername = Convert.ToString(Session["username"]);
+                //Delete from pendings because client does not want to match with the photographer who accepted it
                 sqlSelect = "INSERT INTO rejects VALUES(@clientUsernameValue, @photographerUsernameValue);" +
                     "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;";
             }
