@@ -65,6 +65,30 @@
 
            };
 
+           var sessionDict = {
+               1: "30 Minutes",
+               2: "60 minutes",
+               2.25: "90 minutes",
+               2.5: "2 hours",
+               2.75: "2.5 hours",
+               3: "3 hours",
+           };
+        
+           var outfitDict = {
+               1: "1 Outfit",
+               1.10: "2 Outfits",
+               1.20: "3 Outfits",
+               1.30: "4 Outfits",
+               1.50: "5 Outfits",
+           };
+
+           var experienceDict = {
+               1: "Beginner (1-3 years)",
+               1.5: "Intermediate (3-5 years)",
+               2: "Advanced (5+ years)",
+              
+           };
+
            //calculator
            console.log('expPreference:' + expPreference);
            console.log('numOutfits:' + numOutfits);
@@ -189,7 +213,7 @@
 
                     <label class="questions">Preferred Session Length?</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength1" name="sessionLength" value="1" required>
-                    <label class="lengthLabels" for="sessionLength1">30 Minutes</label><br>
+                    <label class="lengthLabels" for="sessionLength1">30 minutes</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength2" name="sessionLength" value="2">
                     <label class="lengthLabels" for="sessionLength2">60 minutes</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength3" name="sessionLength" value="2.25">
