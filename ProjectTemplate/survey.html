@@ -34,27 +34,24 @@
        }
 
        /* Parse Survey and output User Info */
-       var finalPrice = 50;
        function parseSurvey() {
+           console.log('triggered')
+           var initialPrice = 50;
+           var finalPrice = 0;
+
            username = $("#usernameInput").val();
            password = $("#passwordInput").val();
            userType = $(".radioButtons1:checked").val();
            photoStyle = $(".radioButtons2:checked").val();
            photoType = $(".radioButtons3:checked").val();
-           expPreference = parseInt($(".radioButtons4:checked").val());
+           expPreference = parseFloat($(".radioButtons4:checked").val());
            firstName = $("#firstName").val();
            lastName = $("#lastName").val();
            email = $("#emailAddress").val();
            availabilityInput = $("#freeText").val();
-           sessionLength = parseInt($(".radioButtons5").val());
+           sessionLength = parseFloat($(".radioButtons5:checked").val());
+           numOutfits = parseFloat($(".radioButtons6:checked").val());
 
-           var matchingDict = {
-               "username": username,
-               "user_type": userType,
-               "photo_style": photoStyle,
-               "photo_type": photoType,
-               "experience": expPreference,
-           };
 
            var priceDict = {
                "portrait": 200,
@@ -68,22 +65,27 @@
 
            };
 
-           finalPrice += priceDict[photoType];
-           if (!(isNaN(sessionLength))){
-               finalPrice *= sessionLength;
+           //calculator
+           console.log('expPreference:' + expPreference);
+           console.log('numOutfits:' + numOutfits);
+           console.log('photoType:' + photoType);
+           console.log('sessionLength:' + sessionLength);
+           //!(isNaN(sessionLength) && isNaN(expPreference) && isNaN(numOutfits) && isNaN(photoType))
+           if ((sessionLength !== NaN && expPreference !== NaN && numOutfits !== NaN && photoType !== NaN)) {
+               finalPrice = Math.round((priceDict[photoType] + initialPrice) * (expPreference * numOutfits * sessionLength), 2);
+               console.log('CHANGE DETECTED');
+               if (finalPrice > 0){
+                   $("#calculator").html("<h1 id='finalUserInfo'> " + "Estimated cost of services:<br><br>" + "$" + finalPrice + "</h1>");
+               } else {
+                   $("#calculator").html("<h1 id='finalUserInfo'> " + "<br>Please select all form options to get an estimated price." + "</h1>");
+                   
+               }
+               
+               
            }
-           if (!(isNaN(expPreference))) {
-               finalPrice *= expPreference;
+           else {
+               console.log('null, continuing')
            }
-           
-        //calculator
-           console.log('CHANGE DETECTED');
-           console.log(finalPrice);
-               $("#calculator").html("<h1 id='finalUserInfo'> " + "Estimated cost of services:<br><br>" + "$" + finalPrice + "</h1>");
-
-
-          
-           //$("#userInfo").append("<h2 id=calculate>Based on your preferred photo type, below is a price range you can expect for your service:" + "<br><br>" + "<b>" + priceDict[photoType] + "</b>" + "</h2>");
        }
 	</script> 
 
@@ -180,27 +182,38 @@
                     <label class="questions">Preferred photography experience?</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceOne" name="expSelection" value="1" required>
                     <label class="expLabels" for="expChoiceOne">Beginner (1-3 years)</label><br>
-
                     <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceTwo" name="expSelection" value="1.5">
                     <label class="expLabels" for="expChoiceTwo">Intermediate (3-5 years)</label><br>
-
                     <input onchange="parseSurvey()" class="radioButtons radioButtons4" type="radio" id="expChoiceThree" name="expSelection" value="2">
                     <label class="expLabels" for="expChoiceThree">Advanced (5+ years)</label><br><br>
 
-                    <label class="questions">Preferred photography experience?</label><br>
-                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength1" name="sessionLength" value="1">
+                    <label class="questions">Preferred Session Length?</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength1" name="sessionLength" value="1" required>
                     <label class="lengthLabels" for="sessionLength1">30 Minutes</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength2" name="sessionLength" value="2">
-                    <label class="lengthLabels" for="sessionLength1">60 minutes</label><br>
-                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength3" name="sessionLength" value="2.5">
-                    <label class="lengthLabels" for="sessionLength1">90 minutes</label><br>
-                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength4" name="sessionLength" value="3">
-                    <label class="lengthLabels" for="sessionLength1">2 hours</label><br>
-                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength5" name="sessionLength" value="3.5">
-                    <label class="lengthLabels" for="sessionLength1">2.5 hours</label><br>
-                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength7" name="sessionLength" value="4">
-                    <label class="lengthLabels" for="sessionLength1">3 hours</label><br><br><br>
-                    <input onchange="parseSurvey()" class="inputBox" type="submit" value="Sign Up">
+                    <label class="lengthLabels" for="sessionLength2">60 minutes</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength3" name="sessionLength" value="2.25">
+                    <label class="lengthLabels" for="sessionLength3">90 minutes</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength4" name="sessionLength" value="2.5">
+                    <label class="lengthLabels" for="sessionLength4">2 hours</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength5" name="sessionLength" value="2.75">
+                    <label class="lengthLabels" for="sessionLength5">2.5 hours</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons5" type="radio" id="sessionLength6" name="sessionLength" value="3">
+                    <label class="lengthLabels" for="sessionLength6">3 hours</label><br><br>
+
+                    <label class="questions">Number of outfits?</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits1" name="numOutfits" value="1" required>
+                    <label class="outfitLabels" for="numOutfits1">1 Outfit</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits2" name="numOutfits" value="1.10">
+                    <label class="outfitLabels" for="numOutfits2">2 Outfits</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits3" name="numOutfits" value="1.20">
+                    <label class="outfitLabels" for="numOutfits3">3 Outfits</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits4" name="numOutfits" value="1.30">
+                    <label class="outfitLabels" for="numOutfits4">4 Outfits</label><br>
+                    <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits5" name="numOutfits" value="1.50">
+                    <label class="outfitLabels" for="numOutfits5">5 Outfits</label><br><br><br>
+
+                    <input class="inputBox" type="submit" value="Sign Up">
                 </form>
             </div>
         </div>
