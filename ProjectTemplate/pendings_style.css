@@ -1,19 +1,8 @@
 /* add a new font into font family */
 @font-face {
-    font-family: "Photography_bold";
-    src: url(Bold.ttf);
+    font-family: "RachelBrown_font";
+    src: url(RachelBrown.ttf);
 }
-
-@font-face {
-    font-family: "Photography_regular";
-    src: url(Regular.ttf);
-}
-
-@font-face {
-    font-family: "Photography_light";
-    src: url(Light.ttf);
-}
-
 body {
     background-image: url(https://images.unsplash.com/photo-1565430973830-b12076b15215?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80); /* The image used */
     background-color: #cccccc; /* Used if the image is unavailable */
@@ -26,7 +15,7 @@ body {
 
 /* set all the font to photography_regular */
 table {
-    font-family: Photography_regular;
+    font-family: RachelBrown_font;
     text-align: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.6);
@@ -47,8 +36,8 @@ table, h1 {
 
 /* Title font style */
 h1 {
-        font-family: Photography_bold;
-        font-size: 40px;
+        font-family: RachelBrown_font;
+        font-size: 50px;
         width: 80%;
         text-align: center;
 }
