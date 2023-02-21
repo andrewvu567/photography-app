@@ -134,14 +134,14 @@
 
 </head>
 <body onload="initialize()">
-    <h1 id="modify">Pending Matches</h1>
     <div class="nav">
-        <a href="home.html">Home</a>
+        <a href="home.html" style="float: left;">Home</a>
         <!--The below link does not exist yet-->
         <!--<a href="matches.html">Your matches</a>-->
-        <a href="pendings.html">Pending Matches</a>
-        <a href="index.html" onclick="logout();">Log Out!</a>
+        <a href="pendings.html" style="float: left;">Pending Matches</a>
+        <a id="logout" href="index.html" style="float: right;" onclick="logout();" >Log Out!</a>
     </div>
+    <h1 id="modify">Pending Matches</h1>
     <p id="message">The following table shows your possible matches:</p>
     <table id="usersTable">
         <thead>
