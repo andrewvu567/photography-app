@@ -106,7 +106,10 @@
                             let typeCell = row.insertCell(3);
                             let rangeCell = row.insertCell(4);
                             let experienceCell = row.insertCell(5);
-                            let buttonsCell = row.insertCell(6);
+                            let sessionLengthCell = row.insertCell(6);
+                            let numOutfitsCell = row.insertCell(7);
+                            let buttonsCell = row.insertCell(8);
+
 
                             usernameCell.innerHTML = json_objs[i].username;
                             availabilityCell.innerHTML = json_objs[i].availability;
@@ -114,6 +117,8 @@
                             typeCell.innerHTML = json_objs[i].type;
                             rangeCell.innerHTML = json_objs[i].budget_range;
                             experienceCell.innerHTML = json_objs[i].experience;
+                            sessionLengthCell.innerHTML = json_objs[i].session_length;
+                            numOutfitsCell.innerHTML = json_objs[i].num_outfits;
                             buttonsCell.innerHTML = `<button value = \"${json_objs[i].username}\" onclick= \"accept(this.value)\">Accept</button> <button value = \"${json_objs[i].username}\" onclick = \"reject(this.value)\">Reject</button>`;
                         }
                     }
@@ -130,7 +135,13 @@
 </head>
 <body onload="initialize()">
     <h1 id="modify">Pending Matches</h1>
-    <a href="index.html" onclick="logout();">Log Out!</a>
+    <div class="nav">
+        <a href="home.html">Home</a>
+        <!--The below link does not exist yet-->
+        <!--<a href="matches.html">Your matches</a>-->
+        <a href="pendings.html">Pending Matches</a>
+        <a href="index.html" onclick="logout();">Log Out!</a>
+    </div>
     <p id="message">The following table shows your possible matches:</p>
     <table id="usersTable">
         <thead>
@@ -141,6 +152,8 @@
                 <th>Type</th>
                 <th>Budget Range</th>
                 <th>Experience</th>
+                <th>Session Length</th>
+                <th># Outfits</th>
                 <th>Accept/Deny</th>
             </tr>
         </thead>

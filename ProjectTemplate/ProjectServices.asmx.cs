@@ -84,7 +84,9 @@ namespace ProjectTemplate
 
                 sqlSelect = "insert into users (username, password, email, first_name, is_photographer) " +
                 "values(@usernameValue, @passwordValue, @emailValue, @firstNameValue, 1);" +
-                "insert into photographers values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, @experienceValue);";
+                "insert into photographers " +
+                "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, " +
+                "@experienceValue, @sessionLengthValue, @numOutfitsValue);";
             }
             else
             {
@@ -140,7 +142,7 @@ namespace ProjectTemplate
             if (Convert.ToInt32(Session["is_photographer"]) == 1)
             {
                 //Return clients who have not been matched, who have not been rejected by the prhotographer and are not in a pending match with the photographer
-                sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM clients WHERE has_match = 0 AND username not in " +
+                sqlSelect = "SELECT username, availability, style, type, budget_range, experience, session_length, num_outfits FROM clients WHERE has_match = 0 AND username not in " +
                     "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue) " +
                     "AND username not in (SELECT client_username FROM pendings WHERE photographer_username = @photographerUsernameValue);";    
             }
@@ -152,7 +154,7 @@ namespace ProjectTemplate
                 else
                 {
                     //Return photographers who have already accepted the client
-                    sqlSelect = "SELECT username, availability, style, type, budget_range, experience FROM photographers WHERE username in" +
+                    sqlSelect = "SELECT username, availability, style, type, budget_range, experience, session_length, num_outfits FROM photographers WHERE username in" +
                         "(SELECT photographer_username FROM pendings WHERE client_username = @clientUsernameValue);";
                 }
             }
@@ -175,7 +177,8 @@ namespace ProjectTemplate
             {
                 output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"availability\":\"" + sqlDt.Rows[i]["availability"] + "\",\"style\":\"" +
                     sqlDt.Rows[i]["style"] + "\", \"type\":\"" + sqlDt.Rows[i]["type"] + "\", \"budget_range\":\"" + sqlDt.Rows[i]["budget_range"] +
-                    "\", \"experience\":\"" + sqlDt.Rows[i]["experience"] + "\"}";
+                    "\", \"experience\":\"" + sqlDt.Rows[i]["experience"] + "\", \"session_length\":\"" + sqlDt.Rows[i]["session_length"]+
+                    "\", \"num_outfits\":\"" + sqlDt.Rows[i]["num_outfits"] + "\"}";
 
                 if (i != sqlDt.Rows.Count - 1)
                 {
