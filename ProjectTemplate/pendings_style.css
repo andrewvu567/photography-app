@@ -28,7 +28,24 @@ table {
 table, td, th {
   border: 1px solid;
 }
-  
+
+.nav {
+  margin: 10px 0px 50px 10px;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: grey;
+}
+
+a:visited {
+  text-decoration: underline;
+}
+
 
 /* Title font style */
 h1 {
@@ -42,6 +59,7 @@ h1 {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-style: italic;
   font-size: 18px;
+  margin: 0px 0px 50px 0px;
 }
 
 a {
@@ -55,6 +73,6 @@ a {
 }
 
 #logout {
-  margin: 0px 8px 0px 0px;
-  /* text-align: right; */
+  margin: 0px 20px 0px 0px;
+  float: right;
 }
