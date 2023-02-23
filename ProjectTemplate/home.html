@@ -27,11 +27,29 @@
                 }
             });
         }
+
+        function showContent() {
+            var webMethod = "ProjectServices.asmx/GetNotificationSummary";
+            let notificationText = document.getElementById("notification")
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(msg.d)
+                    notificationText.innerHTML = msg.d;
+                    
+                },
+                error: function (e) {
+                    alert("Issue!");
+                }
+            });
+        }
     </script>
 
 </head>
-<body>
-    <h1>THIS WILL BE THE HOMEPAGE</h1>
+<body onload="showContent();">
     <div class="nav">
         <a href="home.html">Home</a>
         <!--The below link does not exist yet-->
@@ -39,5 +57,8 @@
         <a href="pendings.html">Pending Matches</a>
         <a href="index.html" onclick="logout();">Log Out!</a>
     </div>
+
+    <h1>ShutterMatch</h1>
+    <p id="notification"></p>
 </body>
 </html>

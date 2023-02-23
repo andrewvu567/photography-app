@@ -19,17 +19,16 @@ namespace ProjectTemplate
 
 	public class ProjectServices : System.Web.Services.WebService
 	{
-		///replace the values of these variables with your database credentials
 		private string dbID = "springc2023team1";
 		private string dbPass = "springc2023team1";
 		private string dbName = "springc2023team1";
 		
-		///call this method anywhere that you need the connection string!
+		// Provides connection string
 		private string getConString() {
 			return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName+"; UID=" + dbID + "; PASSWORD=" + dbPass;
 		}
 
-        [WebMethod(EnableSession = true)] //NOTICE: gotta enable session on each individual method
+        [WebMethod(EnableSession = true)]
         public bool LogOn(string username, string password)
         {
             //we return this flag to tell them if they logged in or not
@@ -38,10 +37,9 @@ namespace ProjectTemplate
             //our connection string comes from our web.config file like we talked about earlier
 /*            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
 */            //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
-            //NOTICE: we added admin to what we pull, so that we can store it along with the id in the session
             string sqlSelect = "SELECT username, email, is_photographer FROM users WHERE username=@usernameValue and password=@passwordValue";
 
-            //set up our connection object to be ready to use our connection string
+            // Create connection object using connection string method
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
             //set up our command object to use our connection, and our query
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
@@ -68,8 +66,16 @@ namespace ProjectTemplate
                 Session["is_photographer"] = sqlDt.Rows[0]["is_photographer"];
                 success = true;
             }
-            //return the result!
+            
+            // if remain false, it means the query failed becaause the credentials were incorrect.
             return success;
+        }
+
+        [WebMethod(EnableSession = true)]
+        public bool LogOff()
+        {
+            Session.Abandon();
+            return true;
         }
 
         [WebMethod(EnableSession = true)]
@@ -112,11 +118,8 @@ namespace ProjectTemplate
             sqlCommand.Parameters.AddWithValue("@sessionLengthValue", HttpUtility.UrlDecode(session_length));
             sqlCommand.Parameters.AddWithValue("@numOutfitsValue", HttpUtility.UrlDecode(num_outfits));
 
-
-
             sqlConnection.Open();
-            //we're using a try/catch so that if the query errors out we can handle it gracefully
-            //by closing the connection and moving on
+
             try{
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
@@ -124,14 +127,13 @@ namespace ProjectTemplate
                 Session["username"] = username;
                 Session["is_photographer"] = password;
                 return true;
-
             }
             catch
             {
+                // Query will fail if username user submit already exists (primary key field)
                 sqlConnection.Close();
                 return false;
             }
-
         }
         
         [WebMethod(EnableSession = true)]
@@ -148,7 +150,7 @@ namespace ProjectTemplate
             }
             else
             {
-                if (checkMatchedStatus() == 1){
+                if (CheckMatchedStatus() == 1){
                     return "Already Matched!";
                 }
                 else
@@ -188,23 +190,6 @@ namespace ProjectTemplate
             output += "]";
 
             return output;
-        }
-
-        //Helper function for checking if a client has already been matched
-        [WebMethod(EnableSession = true)]
-        public int checkMatchedStatus()
-        {
-            string sqlSelect = "SELECT has_match FROM clients WHERE username = @clientUsernameValue;";
-           
-            MySqlConnection sqlConnection = new MySqlConnection(getConString());
-            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
-
-            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
-
-            sqlConnection.Open();
-            
-            return Convert.ToInt32(sqlCommand.ExecuteScalar());
-
         }
 
         [WebMethod(EnableSession = true)]
@@ -262,12 +247,14 @@ namespace ProjectTemplate
             {
                 clientUsername = username;
                 photographerUsername = Convert.ToString(Session["username"]);
+                // Create record in pendings table, awaits client action.
                 sqlSelect = "INSERT INTO pendings VALUES(@clientUsernameValue, @photographerUsernameValue);";
             }
             else
             {
                 photographerUsername = username;
                 clientUsername= Convert.ToString(Session["username"]);
+                // User accepts, no longer want to keep that pending pair on record. Keep track of match for further reference. Ensure client flagged as having match.
                 sqlSelect = "DELETE FROM pendings WHERE client_username = @clientUsernameValue AND photographer_username = @photographerUsernameValue;" +
                     "INSERT INTO matches VALUES(@clientUsernameValue, @photographerUsernameValue);" +
                     "UPDATE clients SET has_match = 1 WHERE username = @clientUsernameValue";
@@ -295,11 +282,111 @@ namespace ProjectTemplate
             }
         }
 
-        [WebMethod(EnableSession = true)]
-        public bool LogOff()
+        [WebMethod(EnableSession =true)]
+        public string getNotificationSummary()
         {
-            Session.Abandon();
-            return true;
+            if (Convert.ToInt32(Session["is_photographer"]) == 0)
+            {
+                if(CheckMatchedStatus() == 1)
+                {
+                    // don't need to get a count of matches as clients are only paired with one photographer.
+                    return $"Hello, {getFirstName()}. You have been matched with a photographer. Please see the 'Your Matches' page for more details";
+                }
+                else
+                {
+                    int pendingCount = GetClientPendingCount();
+                    return $"Hello, {getFirstName()}. You have not been matched with a photographer yet. However, you currently have {pendingCount} " +
+                        $"photographer(s) pending your acceptance. Please visit the 'Pending Matches' page to make a selection.";
+                }
+            }
+            // display info is photographer
+            else
+            {
+                return $"Hello, {getFirstName()}. You have been matched with {GetPhotographerMatchCount()} client(s) and " +
+                    $"have {GetPhotographerPendingCount()} client(s) pending your acceptance. Please visit either the 'Pending Matches' " +
+                    $"or 'Your Matches' page for more details.";
+            }
+        }
+
+        //Helper function for checking if a client has already been matched
+        [WebMethod(EnableSession = true)]
+        public int CheckMatchedStatus()
+        {
+            string sqlSelect = "SELECT has_match FROM clients WHERE username = @clientUsernameValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+
+            return Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+        }
+
+        // Helper functions to get pending counts.
+        [WebMethod(EnableSession =true)]
+        public int GetClientPendingCount()
+        {
+            string sqlSelect = "SELECT COUNT(*) FROM pendings WHERE client_username = @clientUsernameValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+
+            return Convert.ToInt32(sqlCommand.ExecuteScalar());
+        }
+
+        [WebMethod(EnableSession =true)]
+        public int GetPhotographerPendingCount()
+        {
+            string sqlSelect = "SELECT COUNT(*) FROM clients WHERE has_match = 0 AND username not in " +
+                    "(SELECT client_username FROM rejects WHERE photographer_username = @photographerUsernameValue) " +
+                    "AND username not in (SELECT client_username FROM pendings WHERE photographer_username = @photographerUsernameValue);";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+
+            return Convert.ToInt32(sqlCommand.ExecuteScalar());
+        }
+
+        // Helper function to count how many clients photographer matched with.
+        [WebMethod(EnableSession =true)]
+        public int GetPhotographerMatchCount()
+        {
+            string sqlSelect = "SELECT COUNT(*) FROM matches WHERE photographer_username = @photographerUsernameValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+
+            return Convert.ToInt32(sqlCommand.ExecuteScalar());
+        }
+
+        [WebMethod(EnableSession =true)]
+        public string getFirstName()
+        {
+            string sqlSelect = "SELECT first_name FROM users WHERE username = @usernameValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@usernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+            sqlConnection.Open();
+
+            return Convert.ToString(sqlCommand.ExecuteScalar());
         }
     }
 }
