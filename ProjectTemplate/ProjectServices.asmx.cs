@@ -290,19 +290,19 @@ namespace ProjectTemplate
                 if(CheckMatchedStatus() == 1)
                 {
                     // don't need to get a count of matches as clients are only paired with one photographer.
-                    return $"Hello, {getFirstName()}. You have been matched with a photographer. Please see the 'Your Matches' page for more details";
+                    return $"Hello, {getFirstName()}. <br><br>You have been matched with a photographer. Please see the 'Your Matches' page for more details";
                 }
                 else
                 {
                     int pendingCount = GetClientPendingCount();
-                    return $"Hello, {getFirstName()}. You have not been matched with a photographer yet. However, you currently have {pendingCount} " +
+                    return $"Hello, {getFirstName()}. <br><br>You have not been matched with a photographer yet. However, you currently have {pendingCount} " +
                         $"photographer(s) pending your acceptance. Please visit the 'Pending Matches' page to make a selection.";
                 }
             }
             // display info is photographer
             else
             {
-                return $"Hello, {getFirstName()}. You have been matched with {GetPhotographerMatchCount()} client(s) and " +
+                return $"Hello, {getFirstName()}. <br><br>You have been matched with {GetPhotographerMatchCount()} client(s) and " +
                     $"have {GetPhotographerPendingCount()} client(s) pending your acceptance. Please visit either the 'Pending Matches' " +
                     $"or 'Your Matches' page for more details.";
             }
