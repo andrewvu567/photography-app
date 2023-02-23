@@ -82,3 +82,9 @@
     color: white;
     background-color: rgb(46, 46, 46);
 }
+
+#Signup:hover {
+    color: grey;
+    transition: all 0.5s;
+    cursor: pointer;
+}
