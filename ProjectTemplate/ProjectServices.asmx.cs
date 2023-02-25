@@ -206,7 +206,7 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession = true)]
-        public bool rejectMatch(string username)
+        public bool RejectMatch(string username)
         {
             string clientUsername;
             string photographerUsername;
@@ -250,7 +250,7 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession = true)]
-        public bool acceptMatch(string username)
+        public bool AcceptMatch(string username)
         {
             string clientUsername;
             string photographerUsername;
@@ -296,7 +296,7 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession =true)]
-        public string getNotificationSummary()
+        public string GetNotificationSummary()
         {
             if (Convert.ToInt32(Session["isPhotographer"]) == 0)
             {

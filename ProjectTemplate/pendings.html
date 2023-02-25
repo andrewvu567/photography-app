@@ -31,7 +31,7 @@
         }
 
         function reject(username) {
-            var webMethod = "ProjectServices.asmx/rejectMatch";
+            var webMethod = "ProjectServices.asmx/RejectMatch";
             var parameters = "{\"username\":\"" + encodeURI(username) + "\"}";
 
             $.ajax({
@@ -55,7 +55,7 @@
         }
 
         function accept(username) {
-            var webMethod = "ProjectServices.asmx/acceptMatch";
+            var webMethod = "ProjectServices.asmx/AcceptMatch";
             var parameters = "{\"username\":\"" + encodeURI(username) + "\"}";
 
             $.ajax({
