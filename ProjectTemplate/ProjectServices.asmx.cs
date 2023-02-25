@@ -63,7 +63,7 @@ namespace ProjectTemplate
             {
                 // store photographer status
                 Session["username"] = sqlDt.Rows[0]["username"];
-                Session["is_photographer"] = sqlDt.Rows[0]["is_photographer"];
+                Session["isPhotographer"] = sqlDt.Rows[0]["isPhotographer"];
                 success = true;
             }
             
@@ -79,20 +79,20 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession = true)]
-        public bool CreateAccount(string username, string password, string email, string first_name, string is_photographer, 
-            string availability, string style, string type, string range, string experience, string session_length, string num_outfits)
+        public bool CreateAccount(string username, string password, string email, string firstName, string isPhotographer, 
+            string availability, string style, string type, string range, string experience, string sessionLength, string numOutfits, string imageURL)
         {
             string sqlSelect;
 
             //Insert statements depend on whether or not user is is_photographer
-            if (is_photographer == "Photographer")
+            if (isPhotographer == "Photographer")
             {
 
                 sqlSelect = "insert into users (username, password, email, first_name, is_photographer) " +
                 "values(@usernameValue, @passwordValue, @emailValue, @firstNameValue, 1);" +
                 "insert into photographers " +
                 "values(@usernameValue, @availabilityValue, @styleValue, @typeValue, @rangeValue, " +
-                "@experienceValue, @sessionLengthValue, @numOutfitsValue);";
+                "@experienceValue, @sessionLengthValue, @numOutfitsValue, @imageURLValue);";
             }
             else
             {
@@ -108,15 +108,17 @@ namespace ProjectTemplate
             sqlCommand.Parameters.AddWithValue("@usernameValue", HttpUtility.UrlDecode(username));
             sqlCommand.Parameters.AddWithValue("@passwordValue", HttpUtility.UrlDecode(password));
             sqlCommand.Parameters.AddWithValue("@emailValue", HttpUtility.UrlDecode(email));
-            sqlCommand.Parameters.AddWithValue("@firstNameValue", HttpUtility.UrlDecode(first_name));
+            sqlCommand.Parameters.AddWithValue("@firstNameValue", HttpUtility.UrlDecode(firstName));
 
             sqlCommand.Parameters.AddWithValue("@availabilityValue", HttpUtility.UrlDecode(availability));
             sqlCommand.Parameters.AddWithValue("@styleValue", HttpUtility.UrlDecode(style));
             sqlCommand.Parameters.AddWithValue("@typeValue", HttpUtility.UrlDecode(type));
             sqlCommand.Parameters.AddWithValue("@rangeValue", HttpUtility.UrlDecode(range));
             sqlCommand.Parameters.AddWithValue("@experienceValue", HttpUtility.UrlDecode(experience));
-            sqlCommand.Parameters.AddWithValue("@sessionLengthValue", HttpUtility.UrlDecode(session_length));
-            sqlCommand.Parameters.AddWithValue("@numOutfitsValue", HttpUtility.UrlDecode(num_outfits));
+            sqlCommand.Parameters.AddWithValue("@sessionLengthValue", HttpUtility.UrlDecode(sessionLength));
+            sqlCommand.Parameters.AddWithValue("@numOutfitsValue", HttpUtility.UrlDecode(numOutfits));
+            sqlCommand.Parameters.AddWithValue("@imageURLValue", HttpUtility.UrlDecode(imageURL));
+
 
             sqlConnection.Open();
 
@@ -125,7 +127,14 @@ namespace ProjectTemplate
                 sqlConnection.Close();
                 //Set session variables 
                 Session["username"] = username;
-                Session["is_photographer"] = password;
+                if (isPhotographer == "Photographer")
+                {
+                    Session["isPhotographer"] = 1;
+                }
+                else
+                {
+                    Session["isPhotographer"] = 0;
+                }
                 return true;
             }
             catch
@@ -141,7 +150,7 @@ namespace ProjectTemplate
         {
             string sqlSelect;
 
-            if (Convert.ToInt32(Session["is_photographer"]) == 1)
+            if (Convert.ToInt32(Session["isPhotographer"]) == 1)
             {
                 //Return clients who have not been matched, who have not been rejected by the prhotographer and are not in a pending match with the photographer
                 sqlSelect = "SELECT username, availability, style, type, budget_range, experience, session_length, num_outfits FROM clients WHERE has_match = 0 AND username not in " +
@@ -172,16 +181,20 @@ namespace ProjectTemplate
             DataTable sqlDt = new DataTable("clientAccounts");
             sqlDa.Fill(sqlDt);
 
+            // Retun each user's information as a javascript object in an array
+            // begin the array string
             string output = "[";
 
-            //Returning the pulled users in a javascript objects string
+            //Returning the pulled users in javascript objects
             for (int i = 0; i < sqlDt.Rows.Count; i++)
             {
+                // need to surround key + value in double quotes, requires use of escape sequences
                 output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"availability\":\"" + sqlDt.Rows[i]["availability"] + "\",\"style\":\"" +
                     sqlDt.Rows[i]["style"] + "\", \"type\":\"" + sqlDt.Rows[i]["type"] + "\", \"budget_range\":\"" + sqlDt.Rows[i]["budget_range"] +
                     "\", \"experience\":\"" + sqlDt.Rows[i]["experience"] + "\", \"session_length\":\"" + sqlDt.Rows[i]["session_length"]+
                     "\", \"num_outfits\":\"" + sqlDt.Rows[i]["num_outfits"] + "\"}";
 
+                // don't want to add comma after the last object as jsonparse method will not accept the string
                 if (i != sqlDt.Rows.Count - 1)
                 {
                     output += ",";
@@ -199,7 +212,7 @@ namespace ProjectTemplate
             string photographerUsername;
             string sqlSelect;
 
-            if (Convert.ToInt32(Session["is_photographer"]) == 1)
+            if (Convert.ToInt32(Session["isPhotographer"]) == 1)
             {
                 clientUsername = username;
                 photographerUsername = Convert.ToString(Session["username"]);
@@ -243,7 +256,7 @@ namespace ProjectTemplate
             string photographerUsername;
             string sqlSelect;
 
-            if(Convert.ToInt32(Session["is_photographer"]) == 1)
+            if(Convert.ToInt32(Session["isPhotographer"]) == 1)
             {
                 clientUsername = username;
                 photographerUsername = Convert.ToString(Session["username"]);
@@ -285,29 +298,105 @@ namespace ProjectTemplate
         [WebMethod(EnableSession =true)]
         public string getNotificationSummary()
         {
-            if (Convert.ToInt32(Session["is_photographer"]) == 0)
+            if (Convert.ToInt32(Session["isPhotographer"]) == 0)
             {
                 if(CheckMatchedStatus() == 1)
                 {
                     // don't need to get a count of matches as clients are only paired with one photographer.
-                    return $"Hello, {getFirstName()}. <br><br>You have been matched with a photographer. Please see the 'Your Matches' page for more details";
+                    return $"Hello, {GetFirstName()}. <br><br>You have been matched with a photographer. Please see the 'Your Matches' page for more details";
                 }
                 else
                 {
                     int pendingCount = GetClientPendingCount();
-                    return $"Hello, {getFirstName()}. <br><br>You have not been matched with a photographer yet. However, you currently have {pendingCount} " +
+                    return $"Hello, {GetFirstName()}. <br><br>You have not been matched with a photographer yet. However, you currently have {pendingCount} " +
                         $"photographer(s) pending your acceptance. Please visit the 'Pending Matches' page to make a selection.";
                 }
             }
             // display info is photographer
             else
             {
-                return $"Hello, {getFirstName()}. <br><br>You have been matched with {GetPhotographerMatchCount()} client(s) and " +
+                return $"Hello, {GetFirstName()}. <br><br>You have been matched with {GetPhotographerMatchCount()} client(s) and " +
                     $"have {GetPhotographerPendingCount()} client(s) pending your acceptance. Please visit either the 'Pending Matches' " +
                     $"or 'Your Matches' page for more details.";
             }
         }
 
+        [WebMethod(EnableSession = true)]
+        public string GetMatchesInfo()
+        {
+            string sqlSelect;
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+
+            if (Convert.ToInt32(Session["isPhotographer"]) == 1)
+            {
+                if (GetPhotographerMatchCount() == 0)
+                {
+                    // may change to a different string
+                    return "You are not matched with any clients yet. Please check the 'Pending Matches' page for possible matches.";
+                }
+                else
+                {
+                    // Pulls multiple records
+                    sqlSelect = "SELECT username, first_name, email FROM users u INNNER JOIN matches m on u.username = m.client_username " +
+                        "WHERE m.photographer_username = @photographerUsernameValue";
+                    
+                    MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@photographerUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+                    MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+                    DataTable sqlDt = new DataTable("matchedClients");
+                    sqlDa.Fill(sqlDt);
+
+                    // create string consisting of array of js objects that can be parsed
+                    string output = "[";
+
+                    for (int i = 0; i < sqlDt.Rows.Count; i++)
+                    {
+                        output += "{" + "\"username\":\"" + sqlDt.Rows[i]["username"] + "\", \"first_name\":\"" + sqlDt.Rows[i]["first_name"] + 
+                            "\",\"email\":\"" + sqlDt.Rows[i]["email"] + "\"}";
+
+                        if (i != sqlDt.Rows.Count - 1)
+                        {
+                            output += ",";
+                        }
+                    }
+                    output += "]";
+                    return output;
+                }
+            }
+            // code for clients
+            else
+            {
+                if (CheckMatchedStatus() == 1)
+                {
+                    // Need to pull img url here too. After parsing string into json object, can determine if length of an object is 4, 
+                    // to determine how to format page
+                    // Retrieves just 1 record
+                    sqlSelect = "SELECT username, first_name, email FROM users u INNER JOIN matches m on u.username = m.photographer_username" +
+                        "WHERE m.client_username = @clientUsernameValue;";
+                    
+                    MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
+
+                    MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+                    DataTable sqlDt = new DataTable("matchedPhotographer");
+                    sqlDa.Fill(sqlDt);
+
+                    // Format as array of one object. Allows a check of the first element's length
+                    string output = "[{" + "\"username\":\"" + sqlDt.Rows[0]["username"] + "\", \"first_name\":\"" + sqlDt.Rows[0]["first_name"] +
+                            "\",\"email\":\"" + sqlDt.Rows[0]["email"] + "\"}]";
+
+                    return output;
+                }
+                else
+                {
+                    // may change to different string here too
+                    return "You are not matched with a photographer yet. Please check the 'Pending Matches' page for possible matches.";
+                }
+            }
+        }
+
+        // Helper functions below
         //Helper function for checking if a client has already been matched
         [WebMethod(EnableSession = true)]
         public int CheckMatchedStatus()
@@ -375,7 +464,7 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession =true)]
-        public string getFirstName()
+        public string GetFirstName()
         {
             string sqlSelect = "SELECT first_name FROM users WHERE username = @usernameValue;";
 

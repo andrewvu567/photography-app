@@ -4,14 +4,16 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script type="text/javascript">
-       function CreateAccount(username, password, email, first_name, is_photographer, availability, style, type, range, experience, session_length, num_outfits) {
+       function CreateAccount(username, password, email, firstName, isPhotographer, availability, style, type, range, experience, sessionLength, numOutfits, imageURL) {
            var webMethod = "ProjectServices.asmx/CreateAccount";
            var parameters = "{\"username\":\"" + encodeURI(username) + "\",\"password\":\"" + encodeURI(password) +
-               "\",\"email\":\"" + encodeURI(email) + "\",\"first_name\":\"" + encodeURI(first_name) + "\",\"is_photographer\":\""
-               + encodeURI(is_photographer) + "\",\"availability\":\"" + encodeURI(availability) +
+               "\",\"email\":\"" + encodeURI(email) + "\",\"firstName\":\"" + encodeURI(firstName) + "\",\"isPhotographer\":\""
+               + encodeURI(isPhotographer) + "\",\"availability\":\"" + encodeURI(availability) +
                "\",\"style\":\"" + encodeURI(style) + "\",\"type\":\"" + encodeURI(type) +
-               "\",\"range\":\"" + encodeURI(range) + "\",\"experience\":\"" + encodeURI(experience) + "\",\"session_length\":\"" + encodeURI(session_length) +
-               "\",\"num_outfits\":\"" + encodeURI(num_outfits) + "\"}";
+               "\",\"range\":\"" + encodeURI(range) + "\",\"experience\":\"" + encodeURI(experience) + "\",\"sessionLength\":\"" + encodeURI(sessionLength) +
+               "\",\"numOutfits\":\"" + encodeURI(numOutfits) + "\",\"imageURL\":\"" + encodeURI(imageURL) + "\"}";
+
+           // if is_photographer, then concat img parameter. may need to not add the end of the string above just yet
 
            $.ajax({
                type: "POST",
@@ -112,6 +114,19 @@
                console.log('null, continuing')
            }
        }
+
+       function showImgInput() {
+           is_photographer = document.querySelector('.radioButtons1:checked').value;
+           imageInputDiv = document.getElementById('imageInputDiv')
+
+           if (is_photographer == "Photographer") {
+               imageInputDiv.style.display = 'block';
+           }
+           else {
+               imageInputDiv.style.display = 'none';
+           }
+
+       }
 	</script> 
 
 
@@ -144,13 +159,13 @@
                 <form onsubmit="CreateAccount($('#usernameInput').val(), $('#passwordInput').val(), $('#emailAddress').val(),
                 $('#firstName').val(), $('.radioButtons1:checked').val(), $('#availabilityInput').val(), $('.radioButtons2:checked').val(),
                 $('.radioButtons3:checked').val(), $('#budgetOrRates').val(), $('.radioButtons4:checked').val(), $('.radioButtons5:checked').val(),
-                $('.radioButtons6:checked').val()); return false;">
+                $('.radioButtons6:checked').val(), $('#imageURLId').val()); return false;">
                     <br>
 
                     <label class="questions">Are you a photographer or a client?</label><br>
-                    <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceOne" name="userTypeSelection" value="Photographer" required>
+                    <input onchange="showImgInput()" class="radioButtons radioButtons1" type="radio" id="userTypeChoiceOne" name="userTypeSelection" value="Photographer" required>
                     <label class="userTypeLabels" for="userTypeChoiceOne">Photographer</label><br>
-                    <input class="radioButtons radioButtons1" type="radio" id="userTypeChoiceTwo" name="userTypeSelection" value="Client">
+                    <input onchange ="showImgInput()" class="radioButtons radioButtons1" type="radio" id="userTypeChoiceTwo" name="userTypeSelection" value="Client">
                     <label class="userTypeLabels" for="userTypeChoiceTwo">Client</label><br><br>
 
                     <input class="inputBox" id="usernameInput" type="text" placeholder="Username" required>
@@ -237,9 +252,15 @@
                     <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits4" name="numOutfits" value="4 Outfits">
                     <label class="outfitLabels" for="numOutfits4">4 Outfits</label><br>
                     <input onchange="parseSurvey()" class="radioButtons radioButtons6" type="radio" id="numOutfits5" name="numOutfits" value="5 Outfits">
-                    <label class="outfitLabels" for="numOutfits5">5 Outfits</label><br><br><br>
+                    <label class="outfitLabels" for="numOutfits5">5 Outfits</label><br><br>
+
+                    <div id="imageInputDiv">
+                        <label class="questions">Please provide a URL to one of your images:</label>
+                        <input id="imageURLId" class="inputBox" type="text" value="" required><br><br>
+                    </div>
 
                     <input id="Signup" class="inputBox" type="submit" value="Sign Up">
+
                 </form>
             </div>
         </div>
