@@ -10,9 +10,9 @@ h1 {
 }
 
 body {
-    background-image: url(indexBackground2.png);
+    background-image: url(Home.png);
     background-size: cover;
-    background-position: center;
+    background-position: 10% 30%;
     background-repeat: no-repeat;
 }
 
