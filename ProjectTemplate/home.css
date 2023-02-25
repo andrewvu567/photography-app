@@ -26,18 +26,24 @@ body {
     font-family: RachelBrown_font;
 }
 
-#logout {
-    margin: 0px 20px 0px 0px;
-    float: right;
-  }
-
 .input {
     border-width: 2px;
     border-style: solid;
     background-color: transparent;
-    border-color: black;
+    border-color: #000000;
     color: black;
     font-family: RachelBrown_font;
+}
+
+#logout {
+    margin: 0px 20px 0px 0px;
+    float: right;
+}
+
+button:hover {
+    color: grey;
+    transition: all 0.5s;
+    cursor: pointer;
 }
 
 .nav {
@@ -57,12 +63,6 @@ body {
 .nav a:hover {
     color: white;
     background-color: rgb(46, 46, 46);
-}
-
-button:hover {
-    color: grey;
-    transition: all 0.5s;
-    cursor: pointer;
 }
 
 #signIn:hover {
