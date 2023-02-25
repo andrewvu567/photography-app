@@ -63,7 +63,7 @@ namespace ProjectTemplate
             {
                 // store photographer status
                 Session["username"] = sqlDt.Rows[0]["username"];
-                Session["isPhotographer"] = sqlDt.Rows[0]["isPhotographer"];
+                Session["isPhotographer"] = sqlDt.Rows[0]["is_photographer"];
                 success = true;
             }
             
