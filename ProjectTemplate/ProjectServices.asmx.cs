@@ -67,7 +67,7 @@ namespace ProjectTemplate
                 success = true;
             }
             
-            // if remain false, it means the query failed becaause the credentials were incorrect.
+            // if remain false, it means the query failed because the credentials were incorrect.
             return success;
         }
 
@@ -332,12 +332,12 @@ namespace ProjectTemplate
                 if (GetPhotographerMatchCount() == 0)
                 {
                     // may change to a different string
-                    return "You are not matched with any clients yet. Please check the 'Pending Matches' page for possible matches.";
+                    return "No Matches - Photographer";
                 }
                 else
                 {
                     // Pulls multiple records
-                    sqlSelect = "SELECT username, first_name, email FROM users u INNNER JOIN matches m on u.username = m.client_username " +
+                    sqlSelect = "SELECT username, first_name, email FROM users u INNER JOIN matches m on u.username = m.client_username " +
                         "WHERE m.photographer_username = @photographerUsernameValue";
                     
                     MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
@@ -372,8 +372,10 @@ namespace ProjectTemplate
                     // Need to pull img url here too. After parsing string into json object, can determine if length of an object is 4, 
                     // to determine how to format page
                     // Retrieves just 1 record
-                    sqlSelect = "SELECT username, first_name, email FROM users u INNER JOIN matches m on u.username = m.photographer_username" +
-                        "WHERE m.client_username = @clientUsernameValue;";
+                    sqlSelect = "SELECT u.username, first_name, email, image_url FROM matches m " +
+                        "INNER JOIN users u on m.photographer_username = u.username " +
+                        "INNER JOIN photographers p on m.photographer_username = p.username " +
+                        "WHERE m.client_username = @clientUsernameValue";
                     
                     MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
                     sqlCommand.Parameters.AddWithValue("@clientUsernameValue", HttpUtility.UrlDecode(Convert.ToString(Session["username"])));
@@ -384,14 +386,14 @@ namespace ProjectTemplate
 
                     // Format as array of one object. Allows a check of the first element's length
                     string output = "[{" + "\"username\":\"" + sqlDt.Rows[0]["username"] + "\", \"first_name\":\"" + sqlDt.Rows[0]["first_name"] +
-                            "\",\"email\":\"" + sqlDt.Rows[0]["email"] + "\"}]";
+                            "\",\"email\":\"" + sqlDt.Rows[0]["email"] + "\", \"image_url\":\"" + sqlDt.Rows[0]["image_url"] + "\"}]";
 
                     return output;
                 }
                 else
                 {
                     // may change to different string here too
-                    return "You are not matched with a photographer yet. Please check the 'Pending Matches' page for possible matches.";
+                    return "No Matches - Client";
                 }
             }
         }
