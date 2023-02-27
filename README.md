@@ -84,6 +84,8 @@ Harsh:
 **<a name="sprint-3"></a> Sprint 3**
 
 Andrew:
+- Create custom home page notification for users (2/22)
+- Finish "Your Matches" page to display information about who the user matched with and for clients, see an image by their photographer. (2/25)
 
 Cindy:
 
