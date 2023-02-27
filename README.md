@@ -92,4 +92,6 @@ Cindy:
 Hai:
 
 Harsh:
+- added embed for google calendar (2/26)
+- styled calendar (2/26)
 
