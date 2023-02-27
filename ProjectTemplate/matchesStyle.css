@@ -63,3 +63,8 @@ button:hover {
     transition: all 0.5s;
     cursor: pointer;
 }
+
+#photographerInfoImg {
+    width: 500px;
+    height: 500px;
+}
