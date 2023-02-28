@@ -55,18 +55,18 @@
                             matchInfo.innerHTML += `<div class="clientInfoDivClass">
                                 <p class="clientInfoName"><h3>${json_objs[i].first_name}</h3></p>
                                 <p class="clientInfoUsername"><strong>Username:</strong> ${json_objs[i].username}</p>
-                                <p class="clientInfoEmail"><strong>E-Mail:</strong> ${json_objs[i].email}</p>
+                                <p class="clientInfoEmail"><strong>E-Mail:</strong><a href="mailto:${json_objs[0].email}">${json_objs[0].email}</a></p>
                                 </div>`;
                         }
                     }
                     // code for returning client's matched photographer - array of 1 object with 4 keys. Extra key refers to image url
                     else {
                         let json_objs = JSON.parse(msg.d);
-                        matchInfo.innerHTML += "<h2>Here are the details on the photographer you have matched with. Please reach out them to via email to schedule an appointment!</h2>";
+                        matchInfo.innerHTML += "<h2>Here are the details on the photographer you have matched with. Please reach out to them via email to schedule an appointment!</h2>";
                         matchInfo.innerHTML += `<div class="photographerInfoDivClass">
                                 <p id="photographerInfoName"><h3>${json_objs[0].first_name}</h3></p>
                                 <p id="photographerInfoUsername"><strong>Username:</strong> ${json_objs[0].username}</p>
-                                <p id="photographerInfoEmail"><strong>E-Mail:</strong> ${json_objs[0].email}</p>
+                                <p id="photographerInfoEmail"><strong>E-Mail:</strong> <a href="mailto:${json_objs[0].email}">${json_objs[0].email}</a></p>
                                 <img id="photographerInfoImg" src="${json_objs[0].image_url}">
                                 </div>`;
                     }
